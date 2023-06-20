@@ -40,12 +40,13 @@ const RegistrationWrapper = styled.View`
 const ImageBG = styled.ImageBackground`
   width: 100%;
   height: 100%;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
+  justify-content: center;
   resize: cover;
 `;
 
 const ContentWrapper = styled.View`
-  /* margin-top: 235px; */
+  margin-top: 235px;
   padding: 120px 16px 66px;
   background-color: #ffffff;
   border-radius: 25px 25px 0px 0px;

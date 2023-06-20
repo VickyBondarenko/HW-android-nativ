@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Text, TextInput, View, Button, ImageBackground } from "react-native";
+import {
+  Text,
+  TextInput,
+  View,
+  Button,
+  ImageBackground,
+  KeyboardAvoidingView,
+} from "react-native";
 import { Formik } from "formik";
+// import * as yup from "yup";
 import styled from "styled-components/native";
 
-const RegistarationForm = () => {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(true);
-
   const [displayText, setDisplaytext] = useState("Показати");
 
   useEffect(() => {
@@ -23,44 +30,38 @@ const RegistarationForm = () => {
   const initialValues = { avatar: "", login: "", email: "", password: "" };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
-      {({ handleChange, handleSubmit, values, errors }) => (
-        <FormWrapper>
-          {/* <Button title="Select Avatar" onPress={() => {}} />
-                {errors.avatar && <Text>{errors.avatar}</Text>} */}
-          <Input
-            placeholder="Логін"
-            onChangeText={handleChange("login")}
-            value={values.login}
-          />
-
-          <Input
-            placeholder="Адреса електронної пошти"
-            onChangeText={handleChange("email")}
-            value={values.email}
-          />
-          <PasswordWrapper>
+    <KeyboardAvoidingView behavior="padding">
+      <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
+        {({ handleChange, handleSubmit, values }) => (
+          <FormWrapper>
             <Input
-              placeholder="Пароль"
-              onChangeText={handleChange("password")}
-              value={values.password}
-              secureTextEntry={showPassword}
+              placeholder="Адреса електронної пошти"
+              onChangeText={handleChange("email")}
+              value={values.email}
             />
-            <ShowPasswordButton onPress={handleTogglePassword}>
-              <ShowPasswordText>{displayText}</ShowPasswordText>
-            </ShowPasswordButton>
-          </PasswordWrapper>
+            <PasswordWrapper>
+              <Input
+                placeholder="Пароль"
+                onChangeText={handleChange("password")}
+                value={values.password}
+                secureTextEntry={showPassword}
+              />
+              <ShowPasswordButton onPress={handleTogglePassword}>
+                <ShowPasswordText>{displayText}</ShowPasswordText>
+              </ShowPasswordButton>
+            </PasswordWrapper>
 
-          <SubmittButton onPress={handleSubmit}>
-            <ButtonText>Зареєстуватися</ButtonText>
-          </SubmittButton>
-        </FormWrapper>
-      )}
-    </Formik>
+            <SubmittButton onPress={handleSubmit}>
+              <ButtonText>Увійти</ButtonText>
+            </SubmittButton>
+          </FormWrapper>
+        )}
+      </Formik>
+    </KeyboardAvoidingView>
   );
 };
 
-export default RegistarationForm;
+export default LoginForm;
 
 const FormWrapper = styled.View``;
 
@@ -77,7 +78,7 @@ const Input = styled.TextInput`
 `;
 
 const SubmittButton = styled.TouchableOpacity`
-  margin-top: 43px;
+  margin-top: 27px;
   background: #ff6c00;
   border-radius: 100px;
   padding: 16px 0;
@@ -102,10 +103,7 @@ const ShowPasswordText = styled.Text`
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  /* identical to box height */
-
   text-align: right;
-
   color: #1b4371;
 `;
 const ShowPasswordButton = styled.TouchableOpacity`
