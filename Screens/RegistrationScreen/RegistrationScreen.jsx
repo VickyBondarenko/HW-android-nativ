@@ -43,7 +43,21 @@ const ContentWrapper = styled.View`
   border-radius: 25px 25px 0px 0px;
 `;
 
+const AvatarWrapper = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  margin-top: -120px;
+`;
+
+const Avatar = styled.View`
+  width: 120px;
+  height: 120px;
+  background: #f6f6f6;
+  border-radius: 16px;
+`;
 const PageTitle = styled.Text`
+  margin-top: 92px;
   padding-bottom: 32px;
   font-family: "Roboto";
   font-style: normal;
@@ -56,48 +70,6 @@ const PageTitle = styled.Text`
   color: #212121;
 `;
 
-const AvatarWrapper = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  margin-top: -120px;
-  margin-bottom: 32px;
-`;
-
-const Avatar = styled.View`
-  width: 120px;
-  height: 120px;
-  background: #f6f6f6;
-  border-radius: 16px;
-`;
-// const Input = styled.TextInput`
-//   height: 50px;
-//   width: 100%;
-//   padding: 16px;
-//   border-radius: 8px;
-//   border-width: 1px;
-//   border-style: solid;
-//   border-color: #e8e8e8;
-//   background: #f6f6f6;
-//   margin-bottom: 16px;
-// `;
-
-// const SubmittButton = styled.TouchableOpacity`
-//   margin-top: 43px;
-//   background: #ff6c00;
-//   border-radius: 100px;
-//   padding: 16px 0;
-//   cursor: pointer;
-// `;
-// const ButtonText = styled.Text`
-//   font-family: "Roboto";
-//   font-style: normal;
-//   font-weight: 400;
-//   font-size: 16px;
-//   line-height: 19px;
-//   text-align: center;
-//   color: #ffffff;
-// `;
 const LoginLink = styled.Text`
   margin-top: 16px;
   font-family: "Roboto";
