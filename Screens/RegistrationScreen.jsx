@@ -50,47 +50,52 @@ const RegistrationScreen = () => {
 
   return (
     <RegistarationWrapper>
-      <View></View>
-      <View>
-        <PageTitle>Реєстрація</PageTitle>
+      <Image
+        source={require("../assets/images/photoBG.png")}
+        // resizeMode="cover"
+      >
+        <View></View>
+        <ContentWrapper>
+          <PageTitle>Реєстрація</PageTitle>
 
-        <Formik
-          initialValues={{ avatar: "", login: "", email: "", password: "" }}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          {({ handleChange, handleSubmit, values, errors }) => (
-            <FormWrapper>
-              <Button title="Select Avatar" onPress={() => {}} />
-              {errors.avatar && <Text>{errors.avatar}</Text>}
-              <Input
-                placeholder="Логін"
-                onChangeText={handleChange("login")}
-                value={values.login}
-              />
-              {errors.login && <Text>{errors.login}</Text>}
-              <Input
-                placeholder="Адреса електронної пошти"
-                onChangeText={handleChange("email")}
-                value={values.email}
-              />
-              {errors.email && <Text>{errors.email}</Text>}
-              <Input
-                placeholder="Пароль"
-                onChangeText={handleChange("password")}
-                value={values.password}
-                secureTextEntry
-              />
-              {errors.password && <Text>{errors.password}</Text>}
+          <Formik
+            initialValues={{ avatar: "", login: "", email: "", password: "" }}
+            onSubmit={handleSubmit}
+            validationSchema={validationSchema}
+          >
+            {({ handleChange, handleSubmit, values, errors }) => (
+              <FormWrapper>
+                {/* <Button title="Select Avatar" onPress={() => {}} />
+                {errors.avatar && <Text>{errors.avatar}</Text>} */}
+                <Input
+                  placeholder="Логін"
+                  onChangeText={handleChange("login")}
+                  value={values.login}
+                />
+                {errors.login && <Text>{errors.login}</Text>}
+                <Input
+                  placeholder="Адреса електронної пошти"
+                  onChangeText={handleChange("email")}
+                  value={values.email}
+                />
+                {errors.email && <Text>{errors.email}</Text>}
+                <Input
+                  placeholder="Пароль"
+                  onChangeText={handleChange("password")}
+                  value={values.password}
+                  secureTextEntry
+                />
+                {errors.password && <Text>{errors.password}</Text>}
 
-              <SubmittButton onPress={handleSubmit}>
-                <ButtonText>Зареєстуватися</ButtonText>
-              </SubmittButton>
-            </FormWrapper>
-          )}
-        </Formik>
-        <LoginLink>Вже є акаунт? Увійти</LoginLink>
-      </View>
+                <SubmittButton onPress={handleSubmit}>
+                  <ButtonText>Зареєстуватися</ButtonText>
+                </SubmittButton>
+              </FormWrapper>
+            )}
+          </Formik>
+          <LoginLink>Вже є акаунт? Увійти</LoginLink>
+        </ContentWrapper>
+      </Image>
     </RegistarationWrapper>
   );
 };
@@ -98,10 +103,24 @@ export default RegistrationScreen;
 
 const RegistarationWrapper = styled.View`
   flex: 1;
-  padding: 16px;
   justify-content: center;
   align-items: center;
 `;
+
+const Image = styled.ImageBackground`
+  flex: 1;
+  justify-content: center;
+  resize: cover;
+`;
+
+const ContentWrapper = styled.View`
+  margin-top: 235px;
+  /* padding: 16px; */
+  padding: 92px 0 66px;
+  background-color: #ffffff;
+  border-radius: 25px 25px 0px 0px;
+`;
+
 const PageTitle = styled.Text`
   padding: 32px 0;
   font-family: "Roboto";
@@ -116,6 +135,7 @@ const PageTitle = styled.Text`
 `;
 
 const SubmittButton = styled.TouchableOpacity`
+  margin-top: 43px;
   background: #ff6c00;
   border-radius: 100px;
   padding: 16px 0;
