@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, TextInput, View, Button, ImageBackground } from "react-native";
-
+import AddSvg from "../../assets/svg/add.svg";
 import styled from "styled-components/native";
 import RegistarationForm from "./RegistrationForm";
 
@@ -11,6 +11,14 @@ const RegistrationScreen = () => {
         <ContentWrapper>
           <AvatarWrapper>
             <Avatar></Avatar>
+            <AddSvg
+              width={25}
+              height={25}
+              style={{
+                position: "absolute",
+                transform: [{ translateX: 60 }, { translateY: 33 }],
+              }}
+            />
           </AvatarWrapper>
           <PageTitle>Реєстрація</PageTitle>
           <RegistarationForm />
@@ -45,6 +53,8 @@ const ContentWrapper = styled.View`
 
 const AvatarWrapper = styled.View`
   flex: 1;
+  position: relative;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-top: -120px;
@@ -56,6 +66,7 @@ const Avatar = styled.View`
   background: #f6f6f6;
   border-radius: 16px;
 `;
+
 const PageTitle = styled.Text`
   margin-top: 92px;
   padding-bottom: 32px;
