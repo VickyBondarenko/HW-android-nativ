@@ -2,22 +2,18 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 // import LoginScreen from "./Screens/LoginScreen";
 import RegistrationScreen from "./Screens/RegistrationScreen";
+import styled from "styled-components/native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <AppWrapper>
       <RegistrationScreen />
       {/* <LoginScreen /> */}
       <StatusBar style="auto" />
-    </View>
+    </AppWrapper>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-});
+const AppWrapper = styled.View`
+  flex: 1;
+`;

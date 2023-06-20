@@ -82,7 +82,10 @@ const RegistrationScreen = () => {
                 secureTextEntry
               />
               {errors.password && <Text>{errors.password}</Text>}
-              <StyledButton title="Зареєстуватися" onPress={handleSubmit} />
+
+              <SubmittButton onPress={handleSubmit}>
+                <ButtonText>Зареєстуватися</ButtonText>
+              </SubmittButton>
             </FormWrapper>
           )}
         </Formik>
@@ -112,6 +115,21 @@ const PageTitle = styled.Text`
   color: #212121;
 `;
 
+const SubmittButton = styled.TouchableOpacity`
+  background: #ff6c00;
+  border-radius: 100px;
+  padding: 16px 0;
+  cursor: pointer;
+`;
+const ButtonText = styled.Text`
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #ffffff;
+`;
 const LoginLink = styled.Text`
   margin-top: 16px;
   font-family: "Roboto";
@@ -124,19 +142,3 @@ const LoginLink = styled.Text`
 
   color: #1b4371;
 `;
-
-// const SubmitButton = styled.Button`
-//   color: red;
-//   padding: 16px 0;
-//   background: red;
-//   border-radius: 100px;
-// `;
-
-// const LoginInput = styled.TextInput`
-//   flex: 1;
-//   justify-content: center;
-//   align-items: center;
-//   background: #f6f6f6;
-//   border: 1px solid #e8e8e8;
-//   border-radius: 8px;
-// `;
