@@ -1,31 +1,41 @@
 import React, { useState } from "react";
-import { Text, TextInput, View, Button, ImageBackground } from "react-native";
+import {
+  Text,
+  TextInput,
+  View,
+  Button,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import AddSvg from "../../assets/svg/add.svg";
 import styled from "styled-components/native";
 import RegistarationForm from "./RegistrationForm";
 
 const RegistrationScreen = () => {
   return (
-    <RegistrationWrapper>
-      <ImageBG source={require("../../assets/images/photoBG.png")}>
-        <ContentWrapper>
-          <AvatarWrapper>
-            <Avatar></Avatar>
-            <AddSvg
-              width={25}
-              height={25}
-              style={{
-                position: "absolute",
-                transform: [{ translateX: 60 }, { translateY: 33 }],
-              }}
-            />
-          </AvatarWrapper>
-          <PageTitle>Реєстрація</PageTitle>
-          <RegistarationForm />
-          <LoginLink>Вже є акаунт? Увійти</LoginLink>
-        </ContentWrapper>
-      </ImageBG>
-    </RegistrationWrapper>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <RegistrationWrapper>
+        <ImageBG source={require("../../assets/images/photoBG.png")}>
+          <ContentWrapper>
+            <AvatarWrapper>
+              <Avatar></Avatar>
+              <AddSvg
+                width={25}
+                height={25}
+                style={{
+                  position: "absolute",
+                  transform: [{ translateX: 60 }, { translateY: 33 }],
+                }}
+              />
+            </AvatarWrapper>
+            <PageTitle>Реєстрація</PageTitle>
+            <RegistarationForm />
+            <LoginLink>Вже є акаунт? Увійти</LoginLink>
+          </ContentWrapper>
+        </ImageBG>
+      </RegistrationWrapper>
+    </TouchableWithoutFeedback>
   );
 };
 export default RegistrationScreen;

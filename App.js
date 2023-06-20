@@ -7,8 +7,8 @@ import styled from "styled-components/native";
 export default function App() {
   return (
     <AppWrapper>
-      {/* <RegistrationScreen /> */}
-      <LoginScreen />
+      <RegistrationScreen />
+      {/* <LoginScreen /> */}
       <StatusBar style="auto" />
     </AppWrapper>
   );

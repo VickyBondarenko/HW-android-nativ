@@ -1,20 +1,30 @@
 import React from "react";
-import { Text, TextInput, View, Button, ImageBackground } from "react-native";
+import {
+  Text,
+  TextInput,
+  View,
+  Button,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 
 import styled from "styled-components/native";
 import LogInForm from "./LoginForm";
 
 const LogInScreen = () => {
   return (
-    <LogInWrapper>
-      <ImageBG source={require("../../assets/images/photoBG.png")}>
-        <ContentWrapper>
-          <PageTitle>Увійти</PageTitle>
-          <LogInForm />
-          <LoginLink>Немає акаунту? Зареєструватися</LoginLink>
-        </ContentWrapper>
-      </ImageBG>
-    </LogInWrapper>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <LogInWrapper>
+        <ImageBG source={require("../../assets/images/photoBG.png")}>
+          <ContentWrapper>
+            <PageTitle>Увійти</PageTitle>
+            <LogInForm />
+            <LoginLink>Немає акаунту? Зареєструватися</LoginLink>
+          </ContentWrapper>
+        </ImageBG>
+      </LogInWrapper>
+    </TouchableWithoutFeedback>
   );
 };
 export default LogInScreen;
