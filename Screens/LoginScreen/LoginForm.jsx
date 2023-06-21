@@ -7,6 +7,7 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 // import * as yup from "yup";
 import styled from "styled-components/native";
@@ -22,10 +23,11 @@ const LoginForm = () => {
   const handleTogglePassword = (e) => {
     setShowPassword(!showPassword);
   };
-
+  const navigation = useNavigation();
   const myHandleSubmit = (values, { resetForm }) => {
     console.log(values);
     resetForm();
+    navigation.navigate("Home");
   };
   const initialValues = { email: "", password: "" };
 
@@ -33,27 +35,27 @@ const LoginForm = () => {
     <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
       {({ handleChange, handleSubmit, values }) => (
         <FormWrapper>
-          <KeyboardAvoidingView
+          {/* <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
-            <Input
-              placeholder="Адреса електронної пошти"
-              onChangeText={handleChange("email")}
-              value={values.email}
-            />
-          </KeyboardAvoidingView>
+          > */}
+          <Input
+            placeholder="Адреса електронної пошти"
+            onChangeText={handleChange("email")}
+            value={values.email}
+          />
+          {/* </KeyboardAvoidingView> */}
 
           <PasswordWrapper>
-            <KeyboardAvoidingView
+            {/* <KeyboardAvoidingView
               behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
-              <Input
-                placeholder="Пароль"
-                onChangeText={handleChange("password")}
-                value={values.password}
-                secureTextEntry={showPassword}
-              />
-            </KeyboardAvoidingView>
+            > */}
+            <Input
+              placeholder="Пароль"
+              onChangeText={handleChange("password")}
+              value={values.password}
+              secureTextEntry={showPassword}
+            />
+            {/* </KeyboardAvoidingView> */}
             <ShowPasswordButton onPress={handleTogglePassword}>
               <ShowPasswordText>{displayText}</ShowPasswordText>
             </ShowPasswordButton>
@@ -85,7 +87,7 @@ const Input = styled.TextInput`
 `;
 
 const SubmittButton = styled.TouchableOpacity`
-  margin-top: 27px;
+  margin-top: 32px;
   background: #ff6c00;
   border-radius: 100px;
   padding: 16px 0;

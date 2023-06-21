@@ -7,10 +7,12 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import styled from "styled-components/native";
 
 const RegistarationForm = () => {
+  const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(true);
 
   const [displayText, setDisplaytext] = useState("Показати");
@@ -26,6 +28,7 @@ const RegistarationForm = () => {
   const myHandleSubmit = (values, { resetForm }) => {
     console.log(values);
     resetForm();
+    navigation.navigate("Home");
   };
   const initialValues = { avatar: "", login: "", email: "", password: "" };
 

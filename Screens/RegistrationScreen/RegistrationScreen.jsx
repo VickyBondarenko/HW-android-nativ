@@ -8,11 +8,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import AddSvg from "../../assets/svg/add.svg";
 import styled from "styled-components/native";
 import RegistarationForm from "./RegistrationForm";
 
 const RegistrationScreen = () => {
+  const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <RegistrationWrapper>
@@ -31,7 +33,12 @@ const RegistrationScreen = () => {
             </AvatarWrapper>
             <PageTitle>Реєстрація</PageTitle>
             <RegistarationForm />
-            <LoginLink>Вже є акаунт? Увійти</LoginLink>
+            <LoginLink>
+              Вже є акаунт?
+              <LoginRediraction onPress={() => navigation.navigate("Login")}>
+                <LoginRediractionText>Увійти</LoginRediractionText>
+              </LoginRediraction>
+            </LoginLink>
           </ContentWrapper>
         </ImageBG>
       </RegistrationWrapper>
@@ -51,7 +58,7 @@ const ImageBG = styled.ImageBackground`
   width: 100%;
   height: 100%;
   /* justify-content: flex-end; */
-  justify-content: center;
+  justify-content: flex-end;
   resize: cover;
 `;
 
@@ -100,5 +107,30 @@ const LoginLink = styled.Text`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
+  color: #1b4371;
+`;
+
+const LoginRediraction = styled.TouchableOpacity`
+  text-decoration: underline;
+  margin-top: 20px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  color: #1b4371;
+`;
+
+const LoginRediractionText = styled.Text`
+  text-decoration: underline;
+  top: 4px;
+  left: 5px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+
   color: #1b4371;
 `;

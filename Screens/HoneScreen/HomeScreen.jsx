@@ -8,27 +8,19 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+
 import styled from "styled-components/native";
-import LogInForm from "./LoginForm";
+// import LogInForm from "./LoginForm";
 
 const LogInScreen = () => {
-  const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LogInWrapper>
         <ImageBG source={require("../../assets/images/photoBG.png")}>
           <ContentWrapper>
             <PageTitle>Увійти</PageTitle>
-            <LogInForm />
-            <LoginLink>
-              Немає акаунту?
-              <LoginRediraction
-                onPress={() => navigation.navigate("Registration")}
-              >
-                <LoginRediractionText>Зареєструватися</LoginRediractionText>
-              </LoginRediraction>
-            </LoginLink>
+            <TextInput />
+            <LoginLink>Немає акаунту? Зареєструватися</LoginLink>
           </ContentWrapper>
         </ImageBG>
       </LogInWrapper>
@@ -39,15 +31,16 @@ export default LogInScreen;
 
 const LogInWrapper = styled.View`
   flex: 1;
-  /* width: 100%; */
-  justify-content: flex-end;
+  width: 100%;
+  justify-content: center;
   align-items: center;
 `;
 
 const ImageBG = styled.ImageBackground`
+  flex: 1;
   width: 100%;
-  height: 100%;
-  justify-content: flex-end;
+  /* height: 100%; */
+  justify-content: center;
   resize: cover;
 `;
 
@@ -80,30 +73,5 @@ const LoginLink = styled.Text`
   font-size: 16px;
   line-height: 19px;
   text-align: center;
-  color: #1b4371;
-`;
-
-const LoginRediraction = styled.TouchableOpacity`
-  text-decoration: underline;
-  margin-top: 20px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-  text-align: center;
-  color: #1b4371;
-`;
-
-const LoginRediractionText = styled.Text`
-  text-decoration: underline;
-  top: 4px;
-  left: 5px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 19px;
-
   color: #1b4371;
 `;
