@@ -2,62 +2,55 @@ import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+
 import styled from "styled-components/native";
 import PostsScreen from "../PostScreen/PostsScreen";
-import TabNav from "./TabNav";
+import ProfileScreen from "../ProfileScreen/ProfileScreen";
+import CreatePostScreen from "../CreatePostsScreen/CreatePostsScreen";
 
-const MainStack = createStackNavigator();
-// const Tabs = createBottomTabNavigator();
+// const MainStack = createStackNavigator();
+const Tabs = createBottomTabNavigator();
 
 export default function HomeScreen() {
-  // const headerStyle = {
-  //   backgroundColor: "yellow",
-  // };
   return (
-    <AppWrapper>
-      <MainStack.Navigator initialRouteName="PostList">
-        <MainStack.Screen
-          name="PostList"
-          component={PostsScreen}
-          options={{
-            title: "Публікації",
-            headerStyle: {
-              backgroundColor: "#ffffff",
-            },
-            headerTintColor: "#212121",
-            headerTitleStyle: {
-              fontWeight: "bold",
-              fontSize: 20,
-              textAlign: "center",
-            },
-            headerRight: () => (
-              <Button
-                onPress={() => alert("This is a button!")}
-                title="Press me"
-                color="#fff"
-              />
-            ),
-          }}
-        />
-        {/* <MainStack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <MainStack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false, title: "Start screen" }}
-          /> */}
-      </MainStack.Navigator>
+    <Tabs.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
 
-      <StatusBar style="auto" />
-    </AppWrapper>
+          if (route.name === "PostsList") {
+            iconName = "grid-outline";
+          } else if (route.name === "CreatePostScreen") {
+            iconName = "ios-add-sharp";
+          } else if (route.name === "ProfileScreen") {
+            iconName = "person-outline";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        showLabel: false,
+        style: { alignItems: "center" },
+        activeTintColor: "white",
+        inactiveTintColor: "gray",
+      }}
+    >
+      <Tabs.Screen name="PostsList" component={PostsScreen} />
+      <Tabs.Screen name="ProfileScreen" component={ProfileScreen} />
+      <Tabs.Screen name="CreatePostScreen" component={CreatePostScreen} />
+    </Tabs.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 const AppWrapper = styled.View`
   flex: 1;
