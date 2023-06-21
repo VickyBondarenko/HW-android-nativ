@@ -33,7 +33,7 @@ export default function App() {
           <MainStack.Screen
             name="Home"
             component={HomeScreen}
-            options={{ headerShown: false, title: "Start screen" }}
+            options={{ headerShown: false }}
           />
         </MainStack.Navigator>
         <StatusBar style="auto" />
