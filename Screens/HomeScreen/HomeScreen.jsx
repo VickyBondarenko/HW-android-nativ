@@ -17,22 +17,42 @@ export default function HomeScreen() {
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
+        tabBarIcon: ({ color, size, focused }) => {
           let iconName;
 
           if (route.name === "PostsList") {
-            iconName = "grid-outline";
+            iconName = focused ? "ios-grid" : "ios-grid-outline";
           } else if (route.name === "CreatePostScreen") {
             iconName = "ios-add-sharp";
           } else if (route.name === "ProfileScreen") {
             iconName = "person-outline";
           }
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return (
+            <Ionicons
+              name={iconName}
+              size={size}
+              color={color}
+              style={{
+                backgroundColor: focused ? "#FF6C00" : "transparent",
+                borderRadius: 20,
+                paddingTop: 8,
+                paddingLeft: 23,
+                paddingBottom: 8,
+                paddingRight: 23,
+              }}
+            />
+          );
         },
       })}
       tabBarOptions={{
         showLabel: false,
-        style: { alignItems: "center" },
+        style: {
+          alignItems: "center",
+          paddingTop: 9,
+          paddingLeft: 90,
+          paddingBottom: 34,
+          paddingRight: 90,
+        },
         activeTintColor: "white",
         inactiveTintColor: "gray",
       }}
