@@ -8,10 +8,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 
 const PostsScreen = () => {
+  const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LogInWrapper>
@@ -19,7 +20,9 @@ const PostsScreen = () => {
           <ContentWrapper>
             <PageTitle>Увійти</PageTitle>
             <TextInput />
-            <LoginLink>Немає акаунту? Зареєструватися</LoginLink>
+            <LoginLink onPress={() => navigation.navigate("CommentsScreen")}>
+              <Text>Comments</Text>
+            </LoginLink>
           </ContentWrapper>
         </ImageBG>
       </LogInWrapper>
@@ -64,7 +67,7 @@ const PageTitle = styled.Text`
   color: #212121;
 `;
 
-const LoginLink = styled.Text`
+const LoginLink = styled.TouchableOpacity`
   margin-top: 16px;
   font-family: "Roboto";
   font-style: normal;
