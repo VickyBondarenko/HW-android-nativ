@@ -1,12 +1,13 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import styled from "styled-components/native";
+import UserImage from "../../assets/images/userFoto.png";
 
 const UserInfo = ({ fotoURL, name, email }) => {
   return (
     <UserInfoWrapper>
       <Image
-        source={{ fotoURL }}
+        source={UserImage}
         style={{
           width: 60,
           height: 60,
@@ -25,9 +26,7 @@ const UserInfo = ({ fotoURL, name, email }) => {
 export default UserInfo;
 
 const UserInfoWrapper = styled.View`
-  flex: 1;
   flex-direction: row;
-  height: 60px;
   padding-top: 32px;
   padding-bottom: 32px;
 `;

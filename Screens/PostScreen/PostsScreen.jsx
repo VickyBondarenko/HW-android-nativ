@@ -11,29 +11,30 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import UserInfo from "./UserInfo";
-import UserInfoImage from "../../assets/images/userFoto.png";
+import PostCard from "./PostCard";
 
 const PostsScreen = () => {
-  console.log("UserInfo", UserInfo);
   return (
     <>
       <ScreenWrapper>
         <UserInfo
-          fotoURL={{ uri: { UserInfoImage } }}
+          fotoURL={{}}
           name="Natali Romanova"
           email="email@example.com"
         />
+        <PostCard />
       </ScreenWrapper>
     </>
   );
 };
 export default PostsScreen;
 
-const ScreenWrapper = styled.View`
+const ScreenWrapper = styled.ScrollView`
   flex: 1;
   width: 100%;
-  /* justify-content: center;
-  align-items: center; */
+  flex-direction: column;
+  /* justify-content: flex-start; */
+  /* align-items: center; */
   background-color: #ffffff;
   padding-left: 16px;
   padding-right: 16px;
