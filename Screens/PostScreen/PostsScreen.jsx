@@ -11,7 +11,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import UserInfo from "./UserInfo";
-import PostCard from "./PostCard";
+import PostCard from "../../Components/PostCard";
+import ForestFoto from "../../assets/images/forestFoto.png";
 
 const PostsScreen = () => {
   return (
@@ -22,7 +23,12 @@ const PostsScreen = () => {
           name="Natali Romanova"
           email="email@example.com"
         />
-        <PostCard />
+        <PostCard
+          imageSource={require("../../assets/images/forestFoto.png")}
+          title="Ліс"
+          comments="0"
+          location="Ivano-Frankivs'k Region, Ukraine"
+        />
       </ScreenWrapper>
     </>
   );

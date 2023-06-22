@@ -56,9 +56,9 @@ function PostStackScreen() {
         options={({ navigation }) => ({
           title: "Публікації",
           headerRight: () => (
-            <LogoutButton onPress={() => navigation.navigate("Login")}>
+            <LogoutButtom onPress={() => navigation.navigate("Login")}>
               <LogoutSvg width={24} height={24} style={{ marginRight: 16 }} />
-            </LogoutButton>
+            </LogoutButtom>
           ),
         })}
       />
@@ -162,7 +162,7 @@ export default function HomeScreen() {
   );
 }
 
-const LogoutButton = styled.TouchableOpacity``;
+const LogoutButtom = styled.TouchableOpacity``;
 
 // const styles = StyleSheet.create({
 //   container: {
