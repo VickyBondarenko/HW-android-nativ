@@ -23,7 +23,9 @@ const LoginForm = () => {
   const handleTogglePassword = (e) => {
     setShowPassword(!showPassword);
   };
+
   const navigation = useNavigation();
+
   const myHandleSubmit = (values, { resetForm }) => {
     console.log(values);
     resetForm();
