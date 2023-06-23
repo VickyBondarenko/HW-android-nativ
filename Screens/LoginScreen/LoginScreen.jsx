@@ -17,7 +17,10 @@ const LogInScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LogInWrapper>
-        <ImageBG source={require("../../assets/images/photoBG.png")}>
+        <ImageBG
+          source={require("../../assets/images/photoBG.png")}
+          resizeMode="cover"
+        >
           <ContentWrapper>
             <PageTitle>Увійти</PageTitle>
             <LogInForm />
@@ -40,13 +43,15 @@ export default LogInScreen;
 const LogInWrapper = styled.View`
   flex: 1;
   /* width: 100%; */
-  justify-content: flex-end;
-  align-items: center;
+  /* justify-content: flex-end; */
+  /* align-items: center; */
 `;
 
 const ImageBG = styled.ImageBackground`
-  width: 100%;
-  height: 100%;
+  flex: 1;
+  /* width: 100%;
+  height: 100%; */
+  /* justify-content: center; */
   justify-content: flex-end;
   resize: cover;
 `;

@@ -46,37 +46,27 @@ const RegistarationForm = () => {
               onChangeText={handleChange("login")}
               value={values.login}
             />
-          </KeyboardAvoidingView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
             <Input
               placeholder="Адреса електронної пошти"
               onChangeText={handleChange("email")}
               value={values.email}
             />
-          </KeyboardAvoidingView>
-
-          <PasswordWrapper>
-            <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
+            <PasswordWrapper>
               <Input
                 placeholder="Пароль"
                 onChangeText={handleChange("password")}
                 value={values.password}
                 secureTextEntry={showPassword}
               />
-            </KeyboardAvoidingView>
 
-            <ShowPasswordButton onPress={handleTogglePassword}>
-              <ShowPasswordText>{displayText}</ShowPasswordText>
-            </ShowPasswordButton>
-          </PasswordWrapper>
-
-          <SubmittButton onPress={handleSubmit}>
-            <ButtonText>Зареєстуватися</ButtonText>
-          </SubmittButton>
+              <ShowPasswordButton onPress={handleTogglePassword}>
+                <ShowPasswordText>{displayText}</ShowPasswordText>
+              </ShowPasswordButton>
+            </PasswordWrapper>
+            <SubmittButton onPress={handleSubmit}>
+              <ButtonText>Зареєстуватися</ButtonText>
+            </SubmittButton>
+          </KeyboardAvoidingView>
         </FormWrapper>
       )}
     </Formik>

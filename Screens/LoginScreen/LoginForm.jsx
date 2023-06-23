@@ -35,35 +35,36 @@ const LoginForm = () => {
     <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
       {({ handleChange, handleSubmit, values }) => (
         <FormWrapper>
-          {/* <KeyboardAvoidingView
+          <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
-          > */}
-          <Input
-            placeholder="Адреса електронної пошти"
-            onChangeText={handleChange("email")}
-            value={values.email}
-          />
-          {/* </KeyboardAvoidingView> */}
-
-          <PasswordWrapper>
-            {/* <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            > */}
+          >
             <Input
-              placeholder="Пароль"
-              onChangeText={handleChange("password")}
-              value={values.password}
-              secureTextEntry={showPassword}
+              placeholder="Адреса електронної пошти"
+              onChangeText={handleChange("email")}
+              value={values.email}
             />
             {/* </KeyboardAvoidingView> */}
-            <ShowPasswordButton onPress={handleTogglePassword}>
-              <ShowPasswordText>{displayText}</ShowPasswordText>
-            </ShowPasswordButton>
-          </PasswordWrapper>
 
-          <SubmittButton onPress={handleSubmit}>
-            <ButtonText>Увійти</ButtonText>
-          </SubmittButton>
+            <PasswordWrapper>
+              {/* <KeyboardAvoidingView
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+            > */}
+              <Input
+                placeholder="Пароль"
+                onChangeText={handleChange("password")}
+                value={values.password}
+                secureTextEntry={showPassword}
+              />
+
+              <ShowPasswordButton onPress={handleTogglePassword}>
+                <ShowPasswordText>{displayText}</ShowPasswordText>
+              </ShowPasswordButton>
+            </PasswordWrapper>
+
+            <SubmittButton onPress={handleSubmit}>
+              <ButtonText>Увійти</ButtonText>
+            </SubmittButton>
+          </KeyboardAvoidingView>
         </FormWrapper>
       )}
     </Formik>
