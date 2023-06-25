@@ -1,11 +1,13 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import ThumbsUp from "../assets/svg/thumbs-up.svg";
 import MessageCircle from "../assets/svg/message-circle.svg";
 
 const PostCard = ({ imageSource, title, location, comments, likes }) => {
+  const navigation = useNavigation();
   return (
     <PostCardWrapper>
       <PhotoWrapper>
@@ -18,7 +20,9 @@ const PostCard = ({ imageSource, title, location, comments, likes }) => {
         <PhotoTitle>{title}</PhotoTitle>
         <AnotationWrapper>
           <ReactionWrapper>
-            <CommentsWrapper>
+            <CommentsWrapper
+              onPress={() => navigation.navigate("CommentsScreen")}
+            >
               <MessageCircle width={24} height={24} />
               <CommentsCount>{comments}</CommentsCount>
             </CommentsWrapper>
@@ -61,7 +65,7 @@ const ReactionWrapper = styled.View`
   gap: 24px;
 `;
 
-const CommentsWrapper = styled.View`
+const CommentsWrapper = styled.TouchableOpacity`
   flex-direction: row;
 `;
 

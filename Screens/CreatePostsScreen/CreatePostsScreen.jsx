@@ -35,12 +35,14 @@ function CreatePostScreen() {
           placeholder="Назва..."
           value={title}
           onChangeText={setTitle}
+          placeholderTextColor="#BDBDBD"
         />
         <LocationInputWrapper>
           <AddPostInput
             placeholder="Місцевість..."
             value={location}
             onChangeText={setLocation}
+            placeholderTextColor="#BDBDBD"
             style={{
               paddingLeft: 28,
             }}
@@ -124,11 +126,11 @@ const AddPostInput = styled.TextInput`
   font-family: Roboto;
   border-bottom-width: 1px;
   border-bottom-color: #e8e8e8;
-  ::placeholder {
+  /* ::placeholder {
     color: #bdbdbd;
     font-size: 16px;
     font-family: Roboto;
-  }
+  } */
 `;
 
 const LocationInputWrapper = styled.View`

@@ -12,7 +12,6 @@ const UserInfo = ({ fotoURL, name, email }) => {
           width: 60,
           height: 60,
           borderRadius: 16,
-          backgroundColor: "orange",
         }}
       />
       <UserInfoTextWrapper>

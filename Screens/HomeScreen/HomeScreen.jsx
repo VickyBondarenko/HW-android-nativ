@@ -11,10 +11,12 @@ import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import CreatePostScreen from "../CreatePostsScreen/CreatePostsScreen";
 import LogoutSvg from "../../assets/svg/log-out.svg";
 import CommentsScreen from "../CommentsScreen/CommentsScreen";
+import MapScreen from "../MapScreen/MapScreen";
 
 const Tabs = createBottomTabNavigator();
 const Stack = createStackNavigator();
-function PostStackScreen() {
+
+export default function HomeScreen() {
   return (
     <Stack.Navigator
       initialRouteName="PostsList"
@@ -51,27 +53,27 @@ function PostStackScreen() {
       })}
     >
       <Stack.Screen
-        name="PostsList"
-        component={PostsScreen}
-        options={({ navigation }) => ({
-          title: "Публікації",
-          headerRight: () => (
-            <LogoutButtom onPress={() => navigation.navigate("Login")}>
-              <LogoutSvg width={24} height={24} style={{ marginRight: 16 }} />
-            </LogoutButtom>
-          ),
-        })}
+        name="PostStackScreen"
+        component={PostStackScreen}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="CommentsScreen"
         component={CommentsScreen}
-        options={{ tabBarVisible: false, title: "Коментарі" }}
+        options={{ title: "Коментарі" }}
+      />
+      <Stack.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{ title: "Карта" }}
       />
     </Stack.Navigator>
   );
 }
 
-export default function HomeScreen() {
+function PostStackScreen() {
   const navigation = useNavigation();
   return (
     <Tabs.Navigator
@@ -114,7 +116,7 @@ export default function HomeScreen() {
         tabBarIcon: ({ color, size, focused }) => {
           let iconName;
 
-          if (route.name === "PostStackScreen") {
+          if (route.name === "PostsList") {
             iconName = focused ? "ios-grid" : "ios-grid-outline";
           } else if (route.name === "CreatePostScreen") {
             iconName = "ios-add-sharp";
@@ -126,7 +128,6 @@ export default function HomeScreen() {
         tabBarActiveBackgroundColor: "#FF6C00",
         tabBarItemStyle: {
           height: 40,
-          // width: 70,
           borderRadius: 20,
         },
         tabBarContentContainerStyle: {
@@ -141,9 +142,16 @@ export default function HomeScreen() {
       })}
     >
       <Tabs.Screen
-        name="PostStackScreen"
-        component={PostStackScreen}
-        options={{ headerShown: false }}
+        name="PostsList"
+        component={PostsScreen}
+        options={({ navigation }) => ({
+          title: "Публікації",
+          headerRight: () => (
+            <LogoutButtom onPress={() => navigation.navigate("Login")}>
+              <LogoutSvg width={24} height={24} style={{ marginRight: 16 }} />
+            </LogoutButtom>
+          ),
+        })}
       />
       <Tabs.Screen
         name="ProfileScreen"
@@ -163,15 +171,3 @@ export default function HomeScreen() {
 }
 
 const LogoutButtom = styled.TouchableOpacity``;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
-
-// const AppWrapper = styled.View`
-//   flex: 1;
-// `;
