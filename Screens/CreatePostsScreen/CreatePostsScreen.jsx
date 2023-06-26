@@ -5,8 +5,9 @@ import styled from "styled-components/native";
 import BasketSvg from "../../assets/svg/basket.svg";
 import CameraSvg from "../../assets/svg/camera.svg";
 import MapSvg from "../../assets/svg/map-pin.svg";
+import PhotoCamera from "../../Components/Camera";
 
-function CreatePostScreen() {
+function CreatePostScreen({ route, navigation }) {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
 
@@ -18,19 +19,21 @@ function CreatePostScreen() {
   const handleSubmit = (e) => {
     console.log({ title, location });
     resetForm();
+    navigation.navigate("PostsList");
   };
 
   return (
     <CreatePostScreenWrapper>
       <FormWrapper>
-        <AddPhoto>
-          <SvgWrapper>
+        <PhotoCamera />
+        {/* <AddPhoto> */}
+        {/* <SvgWrapper>
             <CameraSvg width={24} height={24} />
-          </SvgWrapper>
-        </AddPhoto>
-        <PhotoChange>
+          </SvgWrapper> */}
+        {/* </AddPhoto> */}
+        {/* <PhotoChange>
           <PhotoChangeText>Завантажте фото</PhotoChangeText>
-        </PhotoChange>
+        </PhotoChange> */}
         <AddPostInput
           placeholder="Назва..."
           value={title}
@@ -56,7 +59,6 @@ function CreatePostScreen() {
             }}
           />
         </LocationInputWrapper>
-
         <SubmitButton onPress={() => handleSubmit()}>
           <SubmitButtonText>Опубліковати</SubmitButtonText>
         </SubmitButton>
@@ -95,7 +97,7 @@ const AddPhoto = styled.View`
   background: #f6f6f6;
 `;
 
-const SvgWrapper = styled.View`
+const SvgWrapper = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: 60px;
@@ -141,7 +143,7 @@ const LocationInputWrapper = styled.View`
 `;
 
 const SubmitButtonText = styled.Text`
-  color: #bdbdbd;
+  color: #fff;
   text-align: center;
   font-size: 16px;
   font-family: Roboto;
@@ -151,7 +153,7 @@ const SubmitButton = styled.TouchableOpacity`
   width: 100%;
   align-items: center;
   border-radius: 100px;
-  background: #f6f6f6;
+  background: #ff6c00;
   padding: 16px 32px;
   margin-top: 32px;
 `;

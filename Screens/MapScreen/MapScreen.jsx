@@ -40,8 +40,8 @@ const MapScreen = () => {
 
           const geocode = await Location.reverseGeocodeAsync(coords);
           if (geocode.length > 0) {
-            const { city } = geocode[0];
-            setPlaceName(city);
+            const { city, country } = geocode[0];
+            setPlaceName(`${city}, ${country}`);
           }
         }
       );
@@ -66,8 +66,8 @@ const MapScreen = () => {
         showsUserLocation={true}
         mapType="standard"
         minZoomLevel={15}
-        onMapReady={() => console.log({ location })}
-        // onRegionChange={() => console.log("Region change")}
+        onMapReady={() => console.log("hello")}
+        onRegionChange={() => console.log({ location, placeName })}
       >
         {location && (
           <Marker
