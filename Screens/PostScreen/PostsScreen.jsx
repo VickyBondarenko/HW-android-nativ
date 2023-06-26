@@ -13,13 +13,14 @@ import styled from "styled-components/native";
 import UserInfo from "./UserInfo";
 import PostCard from "../../Components/PostCard";
 import ForestFoto from "../../assets/images/forestFoto.png";
+import UserImage from "../../assets/images/userFoto.png";
 
 const PostsScreen = () => {
   return (
     <>
       <ScreenWrapper>
         <UserInfo
-          fotoURL={{}}
+          userPhoto={require("../../assets/images/userFoto.png")}
           name="Natali Romanova"
           email="email@example.com"
         />

@@ -9,7 +9,7 @@ import styled from "styled-components/native";
 import PostsScreen from "../Screens/PostScreen/PostsScreen";
 import ProfileScreen from "../Screens/ProfileScreen/ProfileScreen";
 import CreatePostScreen from "../Screens/CreatePostsScreen/CreatePostsScreen";
-import LogoutSvg from "../../assets/svg/log-out.svg";
+import LogoutSvg from "../assets/svg/log-out.svg";
 
 const Tabs = createBottomTabNavigator();
 

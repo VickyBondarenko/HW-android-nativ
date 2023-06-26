@@ -1,13 +1,12 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
 import styled from "styled-components/native";
-import UserImage from "../../assets/images/userFoto.png";
 
-const UserInfo = ({ fotoURL, name, email }) => {
+const UserInfo = ({ userPhoto, name, email }) => {
   return (
     <UserInfoWrapper>
       <Image
-        source={UserImage}
+        source={userPhoto}
         style={{
           width: 60,
           height: 60,

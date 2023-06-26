@@ -4,7 +4,6 @@ import { TextInput } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import UserImage from "../../assets/images/userFoto.png";
 import SendComment from "../../assets/svg/send-comment.svg";
-// import ImageSource from "../../assets/images/seeFoto.png";
 
 function CommentsScreen() {
   const [comment, setComment] = useState("");
