@@ -4,77 +4,16 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+
 import styled from "styled-components/native";
-import PostsScreen from "../PostScreen/PostsScreen";
-import ProfileScreen from "../ProfileScreen/ProfileScreen";
-import CreatePostScreen from "../CreatePostsScreen/CreatePostsScreen";
+import PostsScreen from "../Screens/PostScreen/PostsScreen";
+import ProfileScreen from "../Screens/ProfileScreen/ProfileScreen";
+import CreatePostScreen from "../Screens/CreatePostsScreen/CreatePostsScreen";
 import LogoutSvg from "../../assets/svg/log-out.svg";
-import CommentsScreen from "../CommentsScreen/CommentsScreen";
-import MapScreen from "../MapScreen/MapScreen";
 
 const Tabs = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
-export default function HomeScreen() {
-  return (
-    <Stack.Navigator
-      initialRouteName="PostsList"
-      screenOptions={({ route, navigation }) => ({
-        headerStyle: {
-          borderBottomColor: "#E8E8E8",
-          borderBottomWidth: 1,
-          height: 88,
-          backgroundColor: "#FFFFFF",
-        },
-        headerTintColor: "#212121",
-        headerTitleAlign: "center",
-        headerTitleStyle: {
-          fontWeight: "bold",
-          fontSize: 17,
-          fontWeight: 500,
-          letterSpacing: -0.408,
-        },
-
-        headerLeft: () => {
-          if (route.name === "CommentsScreen") {
-            return (
-              <TouchableOpacity
-                style={{ marginLeft: 16 }}
-                onPress={() => navigation.goBack()}
-              >
-                <Ionicons name="ios-arrow-back" size={24} color="#212121" />
-              </TouchableOpacity>
-            );
-          } else {
-            return null;
-          }
-        },
-      })}
-    >
-      <Stack.Screen
-        name="PostStackScreen"
-        component={PostStackScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="CommentsScreen"
-        component={CommentsScreen}
-        options={{ title: "Коментарі" }}
-      />
-      <Stack.Screen
-        name="MapScreen"
-        component={MapScreen}
-        options={{ title: "Карта" }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-function PostStackScreen() {
-  const navigation = useNavigation();
+export default function PostStack() {
   return (
     <Tabs.Navigator
       screenOptions={({ route, navigation }) => ({

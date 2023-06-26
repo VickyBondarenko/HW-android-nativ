@@ -34,7 +34,7 @@ const PostCard = ({ imageSource, title, location, comments, likes }) => {
             )}
           </ReactionWrapper>
 
-          <LocationWrapper>
+          <LocationWrapper onPress={() => navigation.navigate("MapScreen")}>
             <Ionicons name="location-outline" size={24} color={"#BDBDBD"} />
             <LocationDiscription>{location}</LocationDiscription>
           </LocationWrapper>
@@ -69,7 +69,7 @@ const CommentsWrapper = styled.TouchableOpacity`
   flex-direction: row;
 `;
 
-const LocationWrapper = styled.View`
+const LocationWrapper = styled.TouchableOpacity`
   flex-direction: row;
 `;
 

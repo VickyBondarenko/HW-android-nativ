@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import styled from "styled-components/native";
 import LoginScreen from "./Screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
-import HomeScreen from "./Screens/HomeScreen/HomeScreen";
+import HomeStack from "./Stacks/HomeStack";
 
 const MainStack = createStackNavigator();
 
@@ -32,7 +32,7 @@ export default function App() {
           />
           <MainStack.Screen
             name="Home"
-            component={HomeScreen}
+            component={HomeStack}
             options={{ headerShown: false }}
           />
         </MainStack.Navigator>
