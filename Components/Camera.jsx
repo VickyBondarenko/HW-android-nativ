@@ -54,7 +54,7 @@ export default function Photocamera({ setImageURI, imageURI }) {
   const savePicture = async () => {
     if (image) {
       try {
-        await MediaLibrary.createAssetAsync(image);
+        const pict = await MediaLibrary.createAssetAsync(image);
         console.log("Picture save!");
       } catch (error) {
         console.log("2", error);

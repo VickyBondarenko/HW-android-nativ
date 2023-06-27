@@ -72,7 +72,7 @@ const Picture = styled.Image`
   width: 100%;
   border-radius: 8px;
   height: 240px;
-  background-color: green;
+  background-color: #f6f6f6;
 `;
 
 const PhotoInfoWrapper = styled.View`
