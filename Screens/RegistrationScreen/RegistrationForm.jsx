@@ -11,6 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import styled from "styled-components/native";
 
+import { auth } from "../../config";
+
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
+
 const RegistarationForm = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(true);
@@ -30,10 +38,33 @@ const RegistarationForm = () => {
     resetForm();
     navigation.navigate("Home");
   };
+
+  const handleSignUp = (values, { resetForm }) => {
+    const { login, email, password } = values;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userData) => {
+        const user = userData.user;
+        updateProfile(user, { displayName: login })
+          .then(() => {
+            console.log("You signed up");
+            console.log("Hello,", user.displayName);
+          })
+          .catch((error) => {
+            console.error("Sorry, error ocured. Message:", error);
+          });
+      })
+      .catch((e) => alert(e.message));
+
+    console.log(values);
+    navigation.navigate("Home");
+    resetForm();
+  };
+
   const initialValues = { avatar: "", login: "", email: "", password: "" };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSignUp}>
       {({ handleChange, handleSubmit, values, errors }) => (
         <FormWrapper>
           {/* <Button title="Select Avatar" onPress={() => {}} />
