@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
+import { selectPostState } from "../../redux/postSlice/PostSelector";
 import UserHeader from "./UserHeader";
 import LogoutSvg from "../../assets/svg/log-out.svg";
 import PostCard from "../../Components/PostCard";
@@ -10,6 +12,11 @@ import PostCard from "../../Components/PostCard";
 const windowHeight = Dimensions.get("window").height;
 
 function ProfileScreen() {
+  const postState = useSelector(selectPostState);
+  console.log("postState", postState);
+  const { comments, likes, postContent } = postState;
+  const { imageURI, location, position, title } = postContent;
+  const { count } = comments;
   const navigation = useNavigation();
   return (
     <ProfileScreenWrapper contentContainerStyle={{ flexGrow: 1 }}>
@@ -22,7 +29,7 @@ function ProfileScreen() {
             <LogoutSvg width={24} height={24} />
           </LogoutButtom>
           <UserHeader name="Natali Romanova" />
-          <PostCard
+          {/* <PostCard
             imageSource={require("../../assets/images/forestFoto.png")}
             title="Ліс"
             comments="8"
@@ -35,13 +42,14 @@ function ProfileScreen() {
             comments="3"
             likes="200"
             location="Ukraine"
-          />
+          /> */}
           <PostCard
-            imageSource={require("../../assets/images/venece.png")}
-            title="Старий будиночок у Венеції"
-            comments="50"
-            likes="200"
-            location="Italy"
+            imageSource={imageURI}
+            title={title}
+            comments={count}
+            location={location}
+            position={position}
+            likes={`${likes}`}
           />
         </ContentWrapper>
       </ImageBG>

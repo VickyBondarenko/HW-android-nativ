@@ -2,22 +2,94 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import styled from "styled-components/native";
+import * as Location from "expo-location";
 import BasketSvg from "../../assets/svg/basket.svg";
-import CameraSvg from "../../assets/svg/camera.svg";
+// import CameraSvg from "../../assets/svg/camera.svg";
 import MapSvg from "../../assets/svg/map-pin.svg";
 import PhotoCamera from "../../Components/Camera";
+import { addPost, addPosition } from "../../redux/postSlice/postSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { PROVIDER_GOOGLE } from "react-native-maps";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function CreatePostScreen({ route, navigation }) {
+  const [disableSbm, setDisableSbm] = useState(true);
+  const [imageURI, setImageURI] = useState(null);
+  //  const [displayCam, setDisplayCam] = useState(false);
+  const [position, setPosition] = useState("");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
 
-  const resetForm = (e) => {
+  provider = PROVIDER_GOOGLE;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setImageURI(null);
     setTitle("");
     setLocation("");
+    setDisableSbm(true);
+  }, []);
+
+  useEffect(() => {
+    if (title && imageURI) {
+      setDisableSbm(false);
+    } else {
+      setDisableSbm(true);
+    }
+  }, [title, imageURI]);
+
+  useEffect(() => {
+    if (imageURI !== null) {
+      let locationSubscription;
+      (async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          console.log("Permission to access location was denied");
+        }
+
+        locationSubscription = await Location.watchPositionAsync(
+          {
+            accuracy: Location.Accuracy.High,
+            distanceInterval: 10,
+          },
+          async (newLocation) => {
+            const coords = {
+              latitude: newLocation.coords.latitude,
+              longitude: newLocation.coords.longitude,
+            };
+            setPosition(coords);
+
+            const geocode = await Location.reverseGeocodeAsync(coords);
+            if (geocode.length > 0) {
+              const { city, country } = geocode[0];
+              setLocation(`${city}, ${country}`);
+            }
+          }
+        );
+      })();
+      return () => {
+        if (locationSubscription) {
+          locationSubscription.remove();
+        }
+      };
+    } else if (imageURI === null) {
+      setLocation("");
+    }
+  }, [imageURI]);
+
+  const resetForm = () => {
+    setImageURI(null);
+    setTitle("");
+    setLocation("");
+    setDisableSbm(true);
   };
 
-  const handleSubmit = (e) => {
-    console.log({ title, location });
+  const handleSubmit = async () => {
+    await AsyncStorage.clear();
+    console.log("Storage cleared");
+    console.log("position", position);
+    dispatch(addPost({ imageURI, location, title }));
+    dispatch(addPosition(position));
     resetForm();
     navigation.navigate("PostsList");
   };
@@ -25,15 +97,7 @@ function CreatePostScreen({ route, navigation }) {
   return (
     <CreatePostScreenWrapper>
       <FormWrapper>
-        <PhotoCamera />
-        {/* <AddPhoto> */}
-        {/* <SvgWrapper>
-            <CameraSvg width={24} height={24} />
-          </SvgWrapper> */}
-        {/* </AddPhoto> */}
-        {/* <PhotoChange>
-          <PhotoChangeText>Завантажте фото</PhotoChangeText>
-        </PhotoChange> */}
+        <PhotoCamera setImageURI={setImageURI} imageURI={imageURI} />
         <AddPostInput
           placeholder="Назва..."
           value={title}
@@ -59,7 +123,7 @@ function CreatePostScreen({ route, navigation }) {
             }}
           />
         </LocationInputWrapper>
-        <SubmitButton onPress={() => handleSubmit()}>
+        <SubmitButton onPress={() => handleSubmit()} disabled={disableSbm}>
           <SubmitButtonText>Опубліковати</SubmitButtonText>
         </SubmitButton>
       </FormWrapper>
@@ -87,52 +151,15 @@ const FormWrapper = styled.View`
   align-items: center;
 `;
 
-const AddPhoto = styled.View`
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 240px;
-  border-radius: 8px;
-  border: 1px solid #e8e8e8;
-  background: #f6f6f6;
-`;
-
-const SvgWrapper = styled.TouchableOpacity`
-  justify-content: center;
-  align-items: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 60px;
-  background: #fff;
-`;
-
-const PhotoChange = styled.TouchableOpacity`
-  width: 100%;
-  align-items: flex-start;
-  padding-top: 8px;
-`;
-const PhotoChangeText = styled.Text`
-  text-align: left;
-  color: #bdbdbd;
-  font-size: 16px;
-  font-family: Roboto;
-  margin-bottom: 32px;
-`;
-
 const AddPostInput = styled.TextInput`
   width: 100%;
   height: 50px;
   padding: 16px 0px 0px;
-  color: #bdbdbd;
+  color: black;
   font-size: 16px;
   font-family: Roboto;
   border-bottom-width: 1px;
   border-bottom-color: #e8e8e8;
-  /* ::placeholder {
-    color: #bdbdbd;
-    font-size: 16px;
-    font-family: Roboto;
-  } */
 `;
 
 const LocationInputWrapper = styled.View`
@@ -153,7 +180,7 @@ const SubmitButton = styled.TouchableOpacity`
   width: 100%;
   align-items: center;
   border-radius: 100px;
-  background: #ff6c00;
+  background-color: ${(props) => (props.disabled ? "#F6F6F6" : "#ff6c00")};
   padding: 16px 32px;
   margin-top: 32px;
 `;

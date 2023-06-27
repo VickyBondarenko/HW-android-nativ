@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 
@@ -15,64 +16,29 @@ import { PROVIDER_GOOGLE } from "react-native-maps";
 provider = PROVIDER_GOOGLE;
 
 const MapScreen = () => {
-  const [location, setLocation] = useState(null);
-  const [placeName, setPlaceName] = useState("");
-
-  useEffect(() => {
-    let locationSubscription;
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Permission to access location was denied");
-      }
-
-      locationSubscription = await Location.watchPositionAsync(
-        {
-          accuracy: Location.Accuracy.High,
-          distanceInterval: 10,
-        },
-        async (newLocation) => {
-          const coords = {
-            latitude: newLocation.coords.latitude,
-            longitude: newLocation.coords.longitude,
-          };
-          setLocation(coords);
-
-          const geocode = await Location.reverseGeocodeAsync(coords);
-          if (geocode.length > 0) {
-            const { city, country } = geocode[0];
-            setPlaceName(`${city}, ${country}`);
-          }
-        }
-      );
-    })();
-
-    return () => {
-      if (locationSubscription) {
-        locationSubscription.remove();
-      }
-    };
-  }, []);
+  const {
+    params: { location, position },
+  } = useRoute();
 
   return (
     <MapWrapper>
       <MapView
         style={styles.mapStyle}
         region={{
-          ...location,
+          ...position,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
         mapType="standard"
         minZoomLevel={15}
-        onMapReady={() => console.log("hello")}
-        onRegionChange={() => console.log({ location, placeName })}
+        onMapReady={() => console.log("Map is ready")}
+        // onRegionChange={() => console.log({ location, position })}
       >
-        {location && (
+        {position && (
           <Marker
-            title={placeName !== "" ? placeName : "I am here"}
-            coordinate={location}
+            title={location}
+            coordinate={position}
             description="Photo location"
           />
         )}
