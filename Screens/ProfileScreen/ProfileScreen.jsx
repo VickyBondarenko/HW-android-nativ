@@ -76,4 +76,5 @@ const UserHeaderWrapper = styled.View`
 const LogoutButtom = styled.TouchableOpacity`
   align-items: flex-end;
   padding-top: 22px;
+  z-index: 1;
 `;

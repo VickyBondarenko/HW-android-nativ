@@ -68,18 +68,18 @@ export default function Photocamera() {
               </SvgWrapper>
             </View>
           </Camera>
-          <PhotoChange>
+          <PhotoChangeButton>
             <PhotoChangeText>Завантажте фото</PhotoChangeText>
-          </PhotoChange>
+          </PhotoChangeButton>
         </>
       ) : (
         <>
           <Image source={{ uri: image }} style={styles.camera} />
-          <PhotoChange>
+          <PhotoChangeButton>
             <PhotoChangeText onPress={() => setImage(null)}>
               Редагувати фото
             </PhotoChangeText>
-          </PhotoChange>
+          </PhotoChangeButton>
         </>
       )}
     </CameraContainer>
@@ -145,7 +145,7 @@ const SvgWrapper = styled.TouchableOpacity`
   background: #fff;
 `;
 
-const PhotoChange = styled.TouchableOpacity`
+const PhotoChangeButton = styled.TouchableOpacity`
   width: 100%;
   align-items: flex-start;
   padding-top: 8px;
