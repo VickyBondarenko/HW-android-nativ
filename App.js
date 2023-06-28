@@ -20,7 +20,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <AppWrapper>
-            <MainStack.Navigator initialRouteName="Home">
+            <MainStack.Navigator initialRouteName="Registration">
               <MainStack.Screen
                 name="Registration"
                 component={RegistrationScreen}

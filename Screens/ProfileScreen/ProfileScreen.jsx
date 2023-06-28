@@ -8,6 +8,7 @@ import { selectPostState } from "../../redux/postSlice/PostSelector";
 import UserHeader from "./UserHeader";
 import LogoutSvg from "../../assets/svg/log-out.svg";
 import PostCard from "../../Components/PostCard";
+import { auth } from "../../config";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -17,7 +18,20 @@ function ProfileScreen() {
   const { comments, likes, postContent } = postState;
   const { imageURI, location, position, title } = postContent;
   const { count } = comments;
+
+  const name = auth.currentUser?.displayName;
+
   const navigation = useNavigation();
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
+
   return (
     <ProfileScreenWrapper contentContainerStyle={{ flexGrow: 1 }}>
       <ImageBG
@@ -25,10 +39,10 @@ function ProfileScreen() {
         style={{ height: windowHeight }}
       >
         <ContentWrapper>
-          <LogoutButtom onPress={() => navigation.navigate("Login")}>
+          <LogoutButtom onPress={handleSignOut}>
             <LogoutSvg width={24} height={24} />
           </LogoutButtom>
-          <UserHeader name="Natali Romanova" />
+          <UserHeader name={name} />
           {/* <PostCard
             imageSource={require("../../assets/images/forestFoto.png")}
             title="Ліс"

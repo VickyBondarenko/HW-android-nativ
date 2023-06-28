@@ -13,6 +13,8 @@ import { addPost, addPosition } from "../../redux/postSlice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPostState } from "../../redux/postSlice/PostSelector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { auth } from "../../config";
+
 import styled from "styled-components/native";
 import UserInfo from "./UserInfo";
 import PostCard from "../../Components/PostCard";
@@ -20,6 +22,9 @@ import ForestFoto from "../../assets/images/forestFoto.png";
 import UserImage from "../../assets/images/userFoto.png";
 
 const PostsScreen = () => {
+  const email = auth.currentUser?.email;
+  const name = auth.currentUser?.displayName;
+
   const postState = useSelector(selectPostState);
   console.log("postState", postState);
   const { comments, likes, postContent } = postState;
@@ -30,8 +35,8 @@ const PostsScreen = () => {
       <ScreenWrapper>
         <UserInfo
           userPhoto={require("../../assets/images/userFoto.png")}
-          name="Natali Romanova"
-          email="email@example.com"
+          name={name}
+          email={email}
         />
         <PostCard
           imageSource={imageURI}

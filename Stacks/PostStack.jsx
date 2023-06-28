@@ -4,16 +4,27 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-
+// import handleSignOut from "../helpers/LogOut";
 import styled from "styled-components/native";
 import PostsScreen from "../Screens/PostScreen/PostsScreen";
 import ProfileScreen from "../Screens/ProfileScreen/ProfileScreen";
 import CreatePostScreen from "../Screens/CreatePostsScreen/CreatePostsScreen";
 import LogoutSvg from "../assets/svg/log-out.svg";
+import { useNavigation } from "@react-navigation/native";
+import { auth } from "../config";
 
 const Tabs = createBottomTabNavigator();
 
 export default function PostStack() {
+  const navigation = useNavigation();
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace("Login");
+      })
+      .catch((error) => alert(error.message));
+  };
   return (
     <Tabs.Navigator
       screenOptions={({ route, navigation }) => ({
@@ -86,7 +97,7 @@ export default function PostStack() {
         options={({ navigation }) => ({
           title: "Публікації",
           headerRight: () => (
-            <LogoutButtom onPress={() => navigation.navigate("Login")}>
+            <LogoutButtom onPress={handleSignOut}>
               <LogoutSvg width={24} height={24} style={{ marginRight: 16 }} />
             </LogoutButtom>
           ),

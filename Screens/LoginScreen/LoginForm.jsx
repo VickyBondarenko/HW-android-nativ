@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
+import { auth } from "../../config";
+import { signInWithEmailAndPassword } from "@firebase/auth";
 // import * as yup from "yup";
 import styled from "styled-components/native";
 
@@ -26,6 +28,33 @@ const LoginForm = () => {
 
   const navigation = useNavigation();
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.replace("Home");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const handleSignIn = (values, { resetForm }) => {
+    const { email, password } = values;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userData) => {
+        const user = userData.user;
+        const { displayName, email, accessToken, uid, photoURL } = user;
+        console.log(`You logged in with:`, email);
+        console.log("Hello,", displayName);
+      })
+
+      .catch((e) => alert(e.message));
+
+    console.log(values);
+    // navigation.navigate("Home");
+    resetForm();
+  };
+
   const myHandleSubmit = (values, { resetForm }) => {
     console.log(values);
     resetForm();
@@ -34,7 +63,7 @@ const LoginForm = () => {
   const initialValues = { email: "", password: "" };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSignIn}>
       {({ handleChange, handleSubmit, values }) => (
         <FormWrapper>
           <KeyboardAvoidingView

@@ -10,6 +10,8 @@ import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyCKwm1e_zSZDsAbtULBKk2gAWKRd1sgFRE",
   authDomain: "reactnative-391007.firebaseapp.com",
+  databaseURL:
+    "https://reactnative-391007-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "reactnative-391007",
   storageBucket: "reactnative-391007.appspot.com",
   messagingSenderId: "361294161420",
