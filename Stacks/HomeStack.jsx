@@ -7,10 +7,27 @@ import styled from "styled-components/native";
 import CommentsScreen from "../Screens/CommentsScreen/CommentsScreen";
 import MapScreen from "../Screens/MapScreen/MapScreen";
 import PostStack from "./PostStack";
+import { auth } from "../config";
+import { useDispatch, useEffect } from "react-redux";
+import { addCurrentUser } from "../redux/authSlice/authSlice";
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  const { displayName, email, photoURL, uid } = auth.currentUser;
+  const userData = {
+    displayName,
+    email,
+    photoURL,
+    uid,
+  };
+  console.log("userData", userData);
+  dispatch(addCurrentUser(userData));
+  // }, []);
+
   return (
     <Stack.Navigator
       initialRouteName="PostsList"

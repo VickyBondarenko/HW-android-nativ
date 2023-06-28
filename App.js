@@ -11,6 +11,7 @@ import styled from "styled-components/native";
 import LoginScreen from "./Screens/LoginScreen/LoginScreen";
 import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
 import HomeStack from "./Stacks/HomeStack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MainStack = createStackNavigator();
 
@@ -20,7 +21,7 @@ export default function App() {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
           <AppWrapper>
-            <MainStack.Navigator initialRouteName="Registration">
+            <MainStack.Navigator initialRouteName="Login">
               <MainStack.Screen
                 name="Registration"
                 component={RegistrationScreen}

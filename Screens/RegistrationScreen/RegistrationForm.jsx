@@ -9,8 +9,11 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
+import * as ImagePicker from "expo-image-picker";
 import styled from "styled-components/native";
+import AddSvg from "../../assets/svg/add.svg";
 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth } from "../../config";
 
 import {
@@ -22,7 +25,7 @@ import {
 const RegistarationForm = () => {
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(true);
-
+  const [userImage, setUserImage] = useState(null);
   const [displayText, setDisplaytext] = useState("Показати");
 
   useEffect(() => {
@@ -33,32 +36,57 @@ const RegistarationForm = () => {
     setShowPassword(!showPassword);
   };
 
-  const myHandleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    resetForm();
-    navigation.navigate("Home");
+  const handleChooseAvatar = async () => {
+    const galleryStatus = await ImagePicker.getMediaLibraryPermissionsAsync();
+
+    if (galleryStatus.status === "granted") {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaType: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.5,
+      });
+
+      if (!result.canceled) {
+        setUserImage(result.assets[0].uri);
+      }
+    } else {
+      return console.log(`no access`);
+    }
+    console.log("image", userImage);
   };
 
-  const handleSignUp = (values, { resetForm }) => {
+  const handleSignUp = async (values, { resetForm }) => {
     const { login, email, password } = values;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userData) => {
-        const user = userData.user;
-        updateProfile(user, { displayName: login })
-          .then(() => {
-            console.log("You signed up");
-            console.log("Hello,", user.displayName);
-          })
-          .catch((error) => {
-            console.error("Sorry, error ocured. Message:", error);
-          });
-      })
-      .catch((e) => alert(e.message));
-
-    console.log(values);
-    navigation.navigate("Home");
-    resetForm();
+    try {
+      const userData = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userData.user;
+      if (userImage) {
+        const storage = getStorage();
+        const storageRef = ref(storage, `avatars/${user.uid}`);
+        await uploadBytes(storageRef, userImage);
+        const avatarURL = await getDownloadURL(storageRef);
+        console.log(avatarURL, "avatarURL test");
+        await updateProfile(user, {
+          displayName: login,
+          photoURL: avatarURL,
+        });
+      } else {
+        await updateProfile(user, {
+          displayName: login,
+        });
+      }
+      console.log("Hello,", user.displayName);
+      setUserImage(null);
+      navigation.navigate("Home");
+      resetForm();
+    } catch (error) {
+      console.error("Sorry, error occurred. Message:", error);
+      console.error("Error details:", error.serverResponse);
+      alert(error.message);
+    }
   };
 
   const initialValues = { avatar: "", login: "", email: "", password: "" };
@@ -67,8 +95,13 @@ const RegistarationForm = () => {
     <Formik initialValues={initialValues} onSubmit={handleSignUp}>
       {({ handleChange, handleSubmit, values, errors }) => (
         <FormWrapper>
-          {/* <Button title="Select Avatar" onPress={() => {}} />
-                {errors.avatar && <Text>{errors.avatar}</Text>} */}
+          <AvatarWrapper>
+            <Avatar source={{ uri: userImage }} />
+            <AvatarButton onPress={handleChooseAvatar}>
+              <AddSvg width={25} height={25} />
+            </AvatarButton>
+          </AvatarWrapper>
+          <PageTitle>Реєстрація</PageTitle>
           <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
@@ -153,7 +186,44 @@ const ShowPasswordText = styled.Text`
   color: #1b4371;
 `;
 const ShowPasswordButton = styled.TouchableOpacity`
-  position: absolute;
+  /* position: absolute;
   right: 16px;
-  top: 16px;
+  top: 16px; */
+`;
+
+const AvatarWrapper = styled.View`
+  /* flex: 1; */
+  position: relative;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: -170px;
+`;
+
+const Avatar = styled.Image`
+  width: 120px;
+  height: 120px;
+  background: #f6f6f6;
+  border-radius: 16px;
+`;
+const AvatarButton = styled.TouchableOpacity`
+  position: absolute;
+  transform: translateX(60px) translateY(33px);
+
+  /* justify-content: center;
+  align-items: center; */
+`;
+
+const PageTitle = styled.Text`
+  margin-top: 32px;
+  padding-bottom: 32px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 35px;
+  text-align: center;
+  /* letter-spacing: 0.01; */
+
+  color: #212121;
 `;

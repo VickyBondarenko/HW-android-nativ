@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { addPost, addPosition } from "../../redux/postSlice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { selectPostState } from "../../redux/postSlice/PostSelector";
+import { selectAuthState } from "../../redux/authSlice/authSelector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth } from "../../config";
 
@@ -22,11 +23,14 @@ import ForestFoto from "../../assets/images/forestFoto.png";
 import UserImage from "../../assets/images/userFoto.png";
 
 const PostsScreen = () => {
-  const email = auth.currentUser?.email;
-  const name = auth.currentUser?.displayName;
+  // const email = auth.currentUser?.email;
+  // const name = auth.currentUser?.displayName;
 
   const postState = useSelector(selectPostState);
-  console.log("postState", postState);
+  const authState = useSelector(selectAuthState);
+  const { photoURL, email, displayName } = authState;
+  // console.log("postState", postState);
+  console.log("authState", authState);
   const { comments, likes, postContent } = postState;
   const { imageURI, location, position, title } = postContent;
   const { count } = comments;
@@ -34,8 +38,8 @@ const PostsScreen = () => {
     <>
       <ScreenWrapper>
         <UserInfo
-          userPhoto={require("../../assets/images/userFoto.png")}
-          name={name}
+          userPhoto={{ uri: photoURL }}
+          name={displayName}
           email={email}
         />
         <PostCard

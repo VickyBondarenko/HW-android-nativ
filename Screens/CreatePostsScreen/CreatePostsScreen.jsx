@@ -87,8 +87,7 @@ function CreatePostScreen({ route, navigation }) {
   const handleSubmit = async () => {
     await AsyncStorage.clear();
     console.log("Storage cleared");
-    console.log("position", position);
-    dispatch(addPost({ imageURI, location, title }));
+        dispatch(addPost({ imageURI, location, title }));
     dispatch(addPosition(position));
     resetForm();
     navigation.navigate("PostsList");

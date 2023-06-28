@@ -20,7 +20,7 @@ const RegistrationScreen = () => {
       <RegistrationWrapper>
         <ImageBG source={require("../../assets/images/photoBG.png")}>
           <ContentWrapper>
-            <AvatarWrapper>
+            {/* <AvatarWrapper>
               <Avatar></Avatar>
               <AddSvg
                 width={25}
@@ -31,7 +31,7 @@ const RegistrationScreen = () => {
                 }}
               />
             </AvatarWrapper>
-            <PageTitle>Реєстрація</PageTitle>
+            <PageTitle>Реєстрація</PageTitle> */}
             <RegistarationForm />
             <LoginLink>
               Вже є акаунт?

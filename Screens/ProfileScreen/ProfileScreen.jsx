@@ -14,7 +14,7 @@ const windowHeight = Dimensions.get("window").height;
 
 function ProfileScreen() {
   const postState = useSelector(selectPostState);
-  console.log("postState", postState);
+
   const { comments, likes, postContent } = postState;
   const { imageURI, location, position, title } = postContent;
   const { count } = comments;

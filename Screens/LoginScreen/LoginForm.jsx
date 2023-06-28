@@ -45,13 +45,10 @@ const LoginForm = () => {
         const user = userData.user;
         const { displayName, email, accessToken, uid, photoURL } = user;
         console.log(`You logged in with:`, email);
-        console.log("Hello,", displayName);
       })
 
       .catch((e) => alert(e.message));
 
-    console.log(values);
-    // navigation.navigate("Home");
     resetForm();
   };
 
