@@ -20,9 +20,14 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   updateProfile,
+  uploadString,
 } from "firebase/auth";
 
+import { useDispatch } from "react-redux";
+import { addCurrentUser } from "../../redux/authSlice/authSlice";
+
 const RegistarationForm = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(true);
   const [userImage, setUserImage] = useState(null);
@@ -46,12 +51,13 @@ const RegistarationForm = () => {
       });
 
       if (!result.canceled) {
+        console.log("image1", userImage);
         setUserImage(result.assets[0].uri);
       }
     } else {
       return console.log(`no access`);
     }
-    console.log("image", userImage);
+    console.log("image2", userImage);
   };
 
   const handleSignUp = async (values, { resetForm }) => {
@@ -63,10 +69,31 @@ const RegistarationForm = () => {
         password
       );
       const user = userData.user;
+      // if (userImage) {
+      //   console.log("image", userImage);
+      //   const storage = getStorage();
+      //   const storageRef = ref(storage, `avatars/${user.uid}.png`);
+      //   await uploadBytes(storageRef, userImage);
+      //   // uploadString(storageRef, userImage, "base64");
+      //   const avatarURL = await getDownloadURL(storageRef);
+      //   console.log(avatarURL, "avatarURL test");
+      //   await updateProfile(user, {
+      //     displayName: login,
+      //     photoURL: userImage,
+      //   });
+      // } else {
+      //   await updateProfile(user, {
+      //     displayName: login,
+      //   });
+      // }
       if (userImage) {
         const storage = getStorage();
         const storageRef = ref(storage, `avatars/${user.uid}`);
-        await uploadBytes(storageRef, userImage);
+
+        const response = await fetch(userImage);
+        const blob = await response.blob();
+
+        await uploadBytes(storageRef, blob);
         const avatarURL = await getDownloadURL(storageRef);
         console.log(avatarURL, "avatarURL test");
         await updateProfile(user, {
@@ -79,7 +106,20 @@ const RegistarationForm = () => {
         });
       }
       console.log("Hello,", user.displayName);
+      console.log("image3", userImage);
+
       setUserImage(null);
+
+      // const { displayName, email, photoURL, uid } = auth.currentUser;
+      // const userInfo = {
+      //   displayName,
+      //   email,
+      //   photoURL,
+      //   uid,
+      // };
+      // console.log("userInfo", userInfo);
+      // dispatch(addCurrentUser(userInfo));
+
       navigation.navigate("Home");
       resetForm();
     } catch (error) {

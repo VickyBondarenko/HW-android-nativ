@@ -59,8 +59,6 @@ const ScreenWrapper = styled.ScrollView`
   flex: 1;
   width: 100%;
   flex-direction: column;
-  /* justify-content: flex-start; */
-  /* align-items: center; */
   background-color: #ffffff;
   padding-left: 16px;
   padding-right: 16px;

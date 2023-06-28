@@ -8,7 +8,7 @@ import CommentsScreen from "../Screens/CommentsScreen/CommentsScreen";
 import MapScreen from "../Screens/MapScreen/MapScreen";
 import PostStack from "./PostStack";
 import { auth } from "../config";
-import { useDispatch, useEffect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addCurrentUser } from "../redux/authSlice/authSlice";
 
 const Stack = createStackNavigator();

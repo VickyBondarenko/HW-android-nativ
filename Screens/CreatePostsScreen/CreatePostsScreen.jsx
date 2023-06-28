@@ -4,7 +4,6 @@ import { TextInput } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import * as Location from "expo-location";
 import BasketSvg from "../../assets/svg/basket.svg";
-// import CameraSvg from "../../assets/svg/camera.svg";
 import MapSvg from "../../assets/svg/map-pin.svg";
 import PhotoCamera from "../../Components/Camera";
 import { addPost, addPosition } from "../../redux/postSlice/postSlice";
@@ -87,7 +86,7 @@ function CreatePostScreen({ route, navigation }) {
   const handleSubmit = async () => {
     await AsyncStorage.clear();
     console.log("Storage cleared");
-        dispatch(addPost({ imageURI, location, title }));
+    dispatch(addPost({ imageURI, location, title }));
     dispatch(addPosition(position));
     resetForm();
     navigation.navigate("PostsList");
