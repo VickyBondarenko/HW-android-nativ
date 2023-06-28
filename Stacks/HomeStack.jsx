@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,17 +16,17 @@ const Stack = createStackNavigator();
 export default function HomeStack() {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  const { displayName, email, photoURL, uid } = auth.currentUser;
-  const userData = {
-    displayName,
-    email,
-    photoURL,
-    uid,
-  };
-  console.log("userData", userData);
-  dispatch(addCurrentUser(userData));
-  // }, []);
+  useEffect(() => {
+    const { displayName, email, photoURL, uid } = auth.currentUser;
+    const userData = {
+      displayName,
+      email,
+      photoURL,
+      uid,
+    };
+    console.log("userDataTest", userData);
+    dispatch(addCurrentUser(userData));
+  }, []);
 
   return (
     <Stack.Navigator
