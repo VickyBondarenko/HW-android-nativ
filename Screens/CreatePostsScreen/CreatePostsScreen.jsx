@@ -10,6 +10,17 @@ import { addPost, addPosition } from "../../redux/postSlice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { selectAuthState } from "../../redux/authSlice/authSelector";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth, db } from "../../config";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+  uploadString,
+} from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 
 function CreatePostScreen({ route, navigation }) {
   const [disableSbm, setDisableSbm] = useState(true);
@@ -19,6 +30,8 @@ function CreatePostScreen({ route, navigation }) {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
 
+  const authState = useSelector(selectAuthState);
+  const { photoURL, email, displayName, uid } = authState;
   provider = PROVIDER_GOOGLE;
   const dispatch = useDispatch();
 
@@ -83,9 +96,97 @@ function CreatePostScreen({ route, navigation }) {
     setDisableSbm(true);
   };
 
+  const writeDataToFirestore = async (pictureURL) => {
+    try {
+      const docRef = await addDoc(collection(db, "posts"), {
+        postContent: {
+          imageURI: pictureURL,
+          title: title,
+          location: location,
+          position: {
+            latitude: position.latitude,
+            longitude: position.longitude,
+          },
+        },
+        author: {
+          displayName: displayName,
+          email: email,
+          photoURL: photoURL,
+          uid: uid,
+        },
+        likes: 0,
+        comments: {
+          count: 0,
+          list: [
+            {
+              author: "",
+              text: "",
+              date: "",
+            },
+          ],
+        },
+      });
+      console.log("Document written with ID: ", docRef.id);
+      return docRef.id;
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      throw e;
+    }
+  };
+
   const handleSubmit = async () => {
     await AsyncStorage.clear();
     console.log("Storage cleared");
+
+    // add foto to the storage
+    var currentDate = new Date();
+    var pictureName = `pictures/${title}${currentDate.getTime()}.jpg`;
+    const storage = getStorage();
+    const storageRef = ref(storage, pictureName);
+    const response = await fetch(imageURI);
+    const blob = await response.blob();
+    //takeURL from the storage
+    await uploadBytes(storageRef, blob);
+    const pictureURL = await getDownloadURL(storageRef);
+    console.log(pictureURL, "pictureURL test");
+    //add post to firestore
+    // const writeDataToFirestore = async () => {
+    //   try {
+    //     const docRef = await addDoc(collection(db, "posts"), {
+    //       postContent: {
+    //         imageURI: pictureURL,
+    //         title: title,
+    //         location: location,
+    //         position: {
+    //           latitude: position.latitude,
+    //           longitude: position.longitude,
+    //         },
+    //       },
+    //       author: {
+    //         displayName: displayName,
+    //         email: email,
+    //         photoURL: photoURL,
+    //       },
+    //       likes: 0,
+    //       comments: {
+    //         count: 0,
+    //         list: [
+    //           {
+    //             author: "",
+    //             text: "",
+    //             date: "",
+    //           },
+    //         ],
+    //       },
+    //     });
+    //     console.log("Document written with ID: ", docRef.id);
+    //     return docRef.id;
+    //   } catch (e) {
+    //     console.error("Error adding document: ", e);
+    //     throw e;
+    //   }
+    // };
+    writeDataToFirestore(pictureURL);
     dispatch(addPost({ imageURI, location, title }));
     dispatch(addPosition(position));
     resetForm();

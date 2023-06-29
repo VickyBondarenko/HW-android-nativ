@@ -10,6 +10,7 @@ import PostStack from "./PostStack";
 import { auth } from "../config";
 import { useDispatch } from "react-redux";
 import { addCurrentUser } from "../redux/authSlice/authSlice";
+import { collection, getDocs } from "firebase/firestore";
 
 const Stack = createStackNavigator();
 

@@ -21,10 +21,35 @@ import UserInfo from "./UserInfo";
 import PostCard from "../../Components/PostCard";
 import ForestFoto from "../../assets/images/forestFoto.png";
 import UserImage from "../../assets/images/userFoto.png";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../config";
 
 const PostsScreen = () => {
   // const email = auth.currentUser?.email;
   // const name = auth.currentUser?.displayName;
+
+  useEffect(() => {
+    const getDataFromFirestore = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "posts"));
+        // Перевіряємо у консолі отримані дані
+        snapshot.forEach((doc) => console.log(`${doc.id} =>`, doc.data()));
+        // Повертаємо масив обʼєктів у довільній формі
+        const test = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data,
+        }));
+        console.log("test", test);
+        return test;
+      } catch (error) {
+        console.log(error);
+        // throw error;
+      }
+    };
+
+    const testPosts = getDataFromFirestore();
+    console.log("testPosts", testPosts);
+  }, []);
 
   const postState = useSelector(selectPostState);
   const authState = useSelector(selectAuthState);
