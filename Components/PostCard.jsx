@@ -15,6 +15,7 @@ const PostCard = ({
   comments,
   likes,
   position,
+  id,
 }) => {
   const navigation = useNavigation();
 
@@ -28,7 +29,7 @@ const PostCard = ({
         <AnotationWrapper>
           <ReactionWrapper>
             <CommentsWrapper
-              onPress={() => navigation.navigate("CommentsScreen")}
+              onPress={() => navigation.navigate("CommentsScreen", { id })}
             >
               <MessageCircle width={24} height={24} />
               <CommentsCount>{comments}</CommentsCount>

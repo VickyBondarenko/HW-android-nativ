@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const postInitialState = {
+  allPosts: [],
   postContent: {
     imageURI: "",
     title: "",
@@ -32,6 +33,9 @@ export const postSlice = createSlice({
     addPosition(state, action) {
       state.postContent.position.latitude = action.payload.latitude;
       state.postContent.position.longitude = action.payload.longitude;
+    },
+    addAllPosts(state, action) {
+      state.allPosts = action.payload;
     },
   },
   //   extraReducers: (builder) => {
@@ -77,4 +81,4 @@ export const postSlice = createSlice({
   //   },
 });
 
-export const { addPost, addPosition } = postSlice.actions;
+export const { addPost, addPosition, addAllPosts } = postSlice.actions;

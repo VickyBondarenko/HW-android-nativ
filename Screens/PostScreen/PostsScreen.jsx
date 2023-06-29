@@ -9,12 +9,19 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { addPost, addPosition } from "../../redux/postSlice/postSlice";
+import {
+  addPost,
+  addPosition,
+  addAllPosts,
+} from "../../redux/postSlice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { selectPostState } from "../../redux/postSlice/PostSelector";
+import {
+  selectPostState,
+  selectAllPosts,
+} from "../../redux/postSlice/PostSelector";
 import { selectAuthState } from "../../redux/authSlice/authSelector";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { auth } from "../../config";
+import { auth, db } from "../../config";
 
 import styled from "styled-components/native";
 import UserInfo from "./UserInfo";
@@ -22,60 +29,64 @@ import PostCard from "../../Components/PostCard";
 import ForestFoto from "../../assets/images/forestFoto.png";
 import UserImage from "../../assets/images/userFoto.png";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../config";
 
 const PostsScreen = () => {
-  // const email = auth.currentUser?.email;
-  // const name = auth.currentUser?.displayName;
+  const dispatch = useDispatch();
+
+  const postState = useSelector(selectPostState);
+  const authState = useSelector(selectAuthState);
+  console.log("authState in post screen", authState);
+  const posts = useSelector(selectAllPosts);
+  console.log("posts", posts);
+  const { photoURL, email, displayName } = authState;
+
+  const { comments, likes, postContent } = postState;
+  const { imageURI, location, position, title } = postContent;
+  const { count } = comments;
 
   useEffect(() => {
     const getDataFromFirestore = async () => {
       try {
         const snapshot = await getDocs(collection(db, "posts"));
-        // Перевіряємо у консолі отримані дані
-        snapshot.forEach((doc) => console.log(`${doc.id} =>`, doc.data()));
-        // Повертаємо масив обʼєктів у довільній формі
-        const test = snapshot.docs.map((doc) => ({
+        console.log("snapshot.docs", snapshot.docs);
+        const result = snapshot.docs.map((doc) => ({
           id: doc.id,
-          data: doc.data,
+          data: doc.data(),
         }));
-        console.log("test", test);
-        return test;
+        console.log("result", result);
+        dispatch(addAllPosts(result));
+        return result;
       } catch (error) {
-        console.log(error);
-        // throw error;
+        console.log("this error", error);
       }
     };
+    getDataFromFirestore();
 
-    const testPosts = getDataFromFirestore();
-    console.log("testPosts", testPosts);
+    console.log("postState", postState);
   }, []);
 
-  const postState = useSelector(selectPostState);
-  const authState = useSelector(selectAuthState);
-  const { photoURL, email, displayName } = authState;
-  // console.log("postState", postState);
-  console.log("authState", authState);
-  const { comments, likes, postContent } = postState;
-  const { imageURI, location, position, title } = postContent;
-  const { count } = comments;
+  console.log("postState", postState);
+
   return (
-    <>
-      <ScreenWrapper>
-        <UserInfo
-          userPhoto={{ uri: photoURL }}
-          name={displayName}
-          email={email}
-        />
-        <PostCard
-          imageSource={imageURI}
-          title={title}
-          comments={count}
-          location={location}
-          position={position}
-        />
-      </ScreenWrapper>
-    </>
+    <ScreenWrapper>
+      {posts.map((post) => (
+        <PostWrapper key={post.id}>
+          <UserInfo
+            userPhoto={{ uri: post.data.author.photoURL }}
+            name={post.data.author.displayName}
+            email={post.data.author.email}
+          />
+          <PostCard
+            imageSource={post.data.postContent.imageURI}
+            title={post.data.postContent.title}
+            comments={post.data.comments.count}
+            location={post.data.postContent.location}
+            position={post.data.postContent.position}
+            id={post.id}
+          />
+        </PostWrapper>
+      ))}
+    </ScreenWrapper>
   );
 };
 export default PostsScreen;
@@ -87,4 +98,8 @@ const ScreenWrapper = styled.ScrollView`
   background-color: #ffffff;
   padding-left: 16px;
   padding-right: 16px;
+`;
+
+const PostWrapper = styled.View`
+  width: 100%;
 `;

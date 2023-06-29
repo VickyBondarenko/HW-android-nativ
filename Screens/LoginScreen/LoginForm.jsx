@@ -44,7 +44,6 @@ const LoginForm = () => {
       .then((userData) => {
         const user = userData.user;
         const { displayName, email, accessToken, uid, photoURL } = user;
-        console.log(`You logged in with:`, email);
       })
 
       .catch((e) => alert(e.message));
@@ -52,11 +51,6 @@ const LoginForm = () => {
     resetForm();
   };
 
-  const myHandleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    resetForm();
-    navigation.navigate("Home");
-  };
   const initialValues = { email: "", password: "" };
 
   return (

@@ -25,7 +25,7 @@ export default function HomeStack() {
       photoURL,
       uid,
     };
-    console.log("userDataTest", userData);
+
     dispatch(addCurrentUser(userData));
   }, []);
 

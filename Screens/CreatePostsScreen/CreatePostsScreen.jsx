@@ -119,9 +119,16 @@ function CreatePostScreen({ route, navigation }) {
           count: 0,
           list: [
             {
-              author: "",
+              author: {
+                photoURL: "",
+                uid: "",
+              },
               text: "",
-              date: "",
+              date: {
+                day: "",
+                time: "",
+              },
+              cid: "",
             },
           ],
         },
@@ -135,12 +142,12 @@ function CreatePostScreen({ route, navigation }) {
   };
 
   const handleSubmit = async () => {
-    await AsyncStorage.clear();
-    console.log("Storage cleared");
+    // await AsyncStorage.clear();
+    // console.log("Storage cleared");
 
     // add foto to the storage
-    var currentDate = new Date();
-    var pictureName = `pictures/${title}${currentDate.getTime()}.jpg`;
+    let currentDate = new Date();
+    let pictureName = `pictures/${title}${currentDate.getTime()}.jpg`;
     const storage = getStorage();
     const storageRef = ref(storage, pictureName);
     const response = await fetch(imageURI);
