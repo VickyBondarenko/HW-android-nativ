@@ -118,18 +118,18 @@ function CreatePostScreen({ route, navigation }) {
         comments: {
           count: 0,
           list: [
-            {
-              author: {
-                photoURL: "",
-                uid: "",
-              },
-              text: "",
-              date: {
-                day: "",
-                time: "",
-              },
-              cid: "",
-            },
+            // {
+            //   author: {
+            //     photoURL: "",
+            //     uid: "",
+            //   },
+            //   text: "",
+            //   date: {
+            //     day: "",
+            //     time: "",
+            //   },
+            //   cid: "",
+            // },
           ],
         },
       });

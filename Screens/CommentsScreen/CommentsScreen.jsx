@@ -26,6 +26,8 @@ function CommentsScreen() {
   const posts = useSelector(selectAllPosts);
   const authState = useSelector(selectAuthState);
   const { photoURL, uid } = authState;
+  const [commentText, setCommentText] = useState("");
+  const [chengeComents, setChengeComents] = useState(false);
 
   useEffect(() => {
     const getDataFromFirestore = async () => {
@@ -44,7 +46,7 @@ function CommentsScreen() {
       }
     };
     getDataFromFirestore();
-  }, []);
+  }, [chengeComents]);
 
   const {
     params: { id },
@@ -53,8 +55,6 @@ function CommentsScreen() {
   const comentsList = data.comments.list;
   console.log("comentsList", comentsList);
 
-  const [commentText, setCommentText] = useState("");
-  // const [allComents, setAllComents] = useState([]);
   // console.log("allComents", allComents);
 
   const updateDataInFirestore = async (count, allComments) => {
@@ -88,7 +88,6 @@ function CommentsScreen() {
       },
     };
 
-    // setAllComents(allComents.push(newComment));
     const allComments = [...comentsList, newComment];
     const count = allComments.length;
 
@@ -98,7 +97,7 @@ function CommentsScreen() {
 
     updateDataInFirestore(count, allComments);
     setCommentText("");
-
+    setChengeComents(!chengeComents);
     console.log("posts in Comments", posts);
   };
 
@@ -113,21 +112,19 @@ function CommentsScreen() {
           }}
         ></PostPhoto>
         <CommentsWrapper>
-          <CommentCard>
-            <Avatar source={UserImage}></Avatar>
-            <Message>
-              <MessageText>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Veritatis distinctio enim veniam recusandae numquam delectus
-                modi eum vel in voluptatem rem amet illo omnis officia
-                cupiditate dolorum, iusto voluptate adipisci.
-              </MessageText>
-              <MessageDate>
-                <DateDay>19 06 2023</DateDay>
-                <DateTime>16:15</DateTime>
-              </MessageDate>
-            </Message>
-          </CommentCard>
+          {comentsList.length > 0 &&
+            comentsList.map((coment) => (
+              <CommentCard key={coment.date.time}>
+                <Avatar source={{ uri: coment.author.photoURL }}></Avatar>
+                <Message>
+                  <MessageText>{coment.text}</MessageText>
+                  <MessageDate>
+                    <DateDay> {coment.date.day}</DateDay>
+                    <DateTime> {coment.date.time}</DateTime>
+                  </MessageDate>
+                </Message>
+              </CommentCard>
+            ))}
         </CommentsWrapper>
       </ContetWrapper>
       <InputWrapper>

@@ -1,25 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import { selectPostState } from "../../redux/postSlice/PostSelector";
+import {
+  selectPostState,
+  selectAllPosts,
+} from "../../redux/postSlice/PostSelector";
 import UserHeader from "./UserHeader";
 import LogoutSvg from "../../assets/svg/log-out.svg";
 import PostCard from "../../Components/PostCard";
-import { auth } from "../../config";
+import { selectAuthState } from "../../redux/authSlice/authSelector";
+import { addAllPosts } from "../../redux/postSlice/postSlice";
+import { auth, db } from "../../config";
+import { collection, getDocs } from "firebase/firestore";
 
 const windowHeight = Dimensions.get("window").height;
 
 function ProfileScreen() {
-  const postState = useSelector(selectPostState);
+  const dispatch = useDispatch();
 
-  const { comments, likes, postContent } = postState;
-  const { imageURI, location, position, title } = postContent;
-  const { count } = comments;
+  const allPosts = useSelector(selectAllPosts);
+  const authState = useSelector(selectAuthState);
 
-  const name = auth.currentUser?.displayName;
+  useEffect(() => {
+    const getDataFromFirestore = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "posts"));
+        console.log("snapshot.docs", snapshot.docs);
+        const result = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        console.log("result", result);
+        dispatch(addAllPosts(result));
+        return result;
+      } catch (error) {
+        console.log("this error", error);
+      }
+    };
+    getDataFromFirestore();
+  }, []);
+
+  const { photoURL, email, displayName, uid } = authState;
+  console.log("allPosts", allPosts);
+  const userPosts = [...allPosts].filter(
+    (post) => post.data.author.uid === uid
+  );
+  console.log("userPosts", userPosts);
 
   const navigation = useNavigation();
 
@@ -33,7 +62,7 @@ function ProfileScreen() {
   };
 
   return (
-    <ProfileScreenWrapper contentContainerStyle={{ flexGrow: 1 }}>
+    <ProfileScreenWrapper>
       <ImageBG
         source={require("../../assets/images/photoBG.png")}
         style={{ height: windowHeight }}
@@ -42,29 +71,22 @@ function ProfileScreen() {
           <LogoutButtom onPress={handleSignOut}>
             <LogoutSvg width={24} height={24} />
           </LogoutButtom>
-          <UserHeader name={name} />
-          {/* <PostCard
-            imageSource={require("../../assets/images/forestFoto.png")}
-            title="Ліс"
-            comments="8"
-            likes="153"
-            location="Ukraine"
-          />
-          <PostCard
-            imageSource={require("../../assets/images/seaFoto.png")}
-            title="Захід на Чорному морі"
-            comments="3"
-            likes="200"
-            location="Ukraine"
-          /> */}
-          <PostCard
-            imageSource={imageURI}
-            title={title}
-            comments={count}
-            location={location}
-            position={position}
-            likes={`${likes}`}
-          />
+          <UserHeader name={displayName} fotoURL={{ uri: photoURL }} />
+          <PostsWrapper>
+            {userPosts.length > 0 &&
+              userPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  imageSource={post.data.postContent.imageURI}
+                  title={post.data.postContent.title}
+                  comments={post.data.comments.count}
+                  location={post.data.postContent.location}
+                  position={post.data.postContent.position}
+                  likes={post.data.likes}
+                  id={post.id}
+                />
+              ))}
+          </PostsWrapper>
         </ContentWrapper>
       </ImageBG>
     </ProfileScreenWrapper>
@@ -73,7 +95,7 @@ function ProfileScreen() {
 
 export default ProfileScreen;
 
-const ProfileScreenWrapper = styled.ScrollView`
+const ProfileScreenWrapper = styled.View`
   flex: 1;
   /* height: 100%; */
 `;
@@ -90,6 +112,9 @@ const ContentWrapper = styled.View`
   background-color: #ffffff;
   border-radius: 25px 25px 0px 0px;
   gap: 33px;
+`;
+const PostsWrapper = styled.ScrollView`
+  flex: 1;
 `;
 const UserHeaderWrapper = styled.View`
   /* align-items: flex-end; */

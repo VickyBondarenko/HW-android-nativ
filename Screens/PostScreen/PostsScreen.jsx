@@ -36,13 +36,6 @@ const PostsScreen = () => {
   const postState = useSelector(selectPostState);
   const authState = useSelector(selectAuthState);
   console.log("authState in post screen", authState);
-  const posts = useSelector(selectAllPosts);
-  console.log("posts", posts);
-  const { photoURL, email, displayName } = authState;
-
-  const { comments, likes, postContent } = postState;
-  const { imageURI, location, position, title } = postContent;
-  const { count } = comments;
 
   useEffect(() => {
     const getDataFromFirestore = async () => {
@@ -65,27 +58,37 @@ const PostsScreen = () => {
     console.log("postState", postState);
   }, []);
 
+  const posts = useSelector(selectAllPosts);
+  console.log("posts", posts);
+  const { photoURL, email, displayName } = authState;
+
+  const { comments, likes, postContent } = postState;
+  const { imageURI, location, position, title } = postContent;
+  const { count } = comments;
+
   console.log("postState", postState);
 
   return (
     <ScreenWrapper>
-      {posts.map((post) => (
-        <PostWrapper key={post.id}>
-          <UserInfo
-            userPhoto={{ uri: post.data.author.photoURL }}
-            name={post.data.author.displayName}
-            email={post.data.author.email}
-          />
-          <PostCard
-            imageSource={post.data.postContent.imageURI}
-            title={post.data.postContent.title}
-            comments={post.data.comments.count}
-            location={post.data.postContent.location}
-            position={post.data.postContent.position}
-            id={post.id}
-          />
-        </PostWrapper>
-      ))}
+      {posts.lenght !== 0 &&
+        posts.map((post) => (
+          <PostWrapper key={post.id}>
+            <UserInfo
+              userPhoto={{ uri: post.data.author.photoURL }}
+              name={post.data.author.displayName}
+              email={post.data.author.email}
+            />
+            <PostCard
+              imageSource={post.data.postContent.imageURI}
+              title={post.data.postContent.title}
+              comments={post.data.comments.count}
+              location={post.data.postContent.location}
+              position={post.data.postContent.position}
+              id={post.id}
+            />
+          </PostWrapper>
+        ))}
+      {/* <Text>hello</Text> */}
     </ScreenWrapper>
   );
 };
