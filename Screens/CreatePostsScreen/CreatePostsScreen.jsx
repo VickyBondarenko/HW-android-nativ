@@ -25,7 +25,6 @@ import { collection, addDoc } from "firebase/firestore";
 function CreatePostScreen({ route, navigation }) {
   const [disableSbm, setDisableSbm] = useState(true);
   const [imageURI, setImageURI] = useState(null);
-  //  const [displayCam, setDisplayCam] = useState(false);
   const [position, setPosition] = useState("");
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
@@ -117,21 +116,9 @@ function CreatePostScreen({ route, navigation }) {
         likes: 0,
         comments: {
           count: 0,
-          list: [
-            // {
-            //   author: {
-            //     photoURL: "",
-            //     uid: "",
-            //   },
-            //   text: "",
-            //   date: {
-            //     day: "",
-            //     time: "",
-            //   },
-            //   cid: "",
-            // },
-          ],
+          list: [],
         },
+        createAt: Date.now(),
       });
       console.log("Document written with ID: ", docRef.id);
       return docRef.id;
@@ -197,7 +184,7 @@ function CreatePostScreen({ route, navigation }) {
     dispatch(addPost({ imageURI, location, title }));
     dispatch(addPosition(position));
     resetForm();
-    navigation.navigate("PostsList");
+    navigation.navigate("PostsList", { refresh: true });
   };
 
   return (

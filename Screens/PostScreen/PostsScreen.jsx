@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   addPost,
   addPosition,
@@ -37,6 +37,9 @@ const PostsScreen = () => {
   const authState = useSelector(selectAuthState);
   console.log("authState in post screen", authState);
 
+  const route = useRoute();
+  const { refresh = false } = route.params || {};
+
   useEffect(() => {
     const getDataFromFirestore = async () => {
       try {
@@ -56,10 +59,14 @@ const PostsScreen = () => {
     getDataFromFirestore();
 
     console.log("postState", postState);
-  }, []);
+  }, [route, refresh]);
 
   const posts = useSelector(selectAllPosts);
-  console.log("posts", posts);
+  const sortedPosts = [...posts].sort(
+    (a, b) => b.data.createAt - a.data.createAt
+  );
+
+  console.log("sortedPosts", sortedPosts);
   const { photoURL, email, displayName } = authState;
 
   const { comments, likes, postContent } = postState;
@@ -70,8 +77,8 @@ const PostsScreen = () => {
 
   return (
     <ScreenWrapper>
-      {posts.lenght !== 0 &&
-        posts.map((post) => (
+      {sortedPosts.lenght !== 0 &&
+        sortedPosts.map((post) => (
           <PostWrapper key={post.id}>
             <UserInfo
               userPhoto={{ uri: post.data.author.photoURL }}
@@ -84,6 +91,7 @@ const PostsScreen = () => {
               comments={post.data.comments.count}
               location={post.data.postContent.location}
               position={post.data.postContent.position}
+              likes={null}
               id={post.id}
             />
           </PostWrapper>

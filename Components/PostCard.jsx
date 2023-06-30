@@ -34,7 +34,7 @@ const PostCard = ({
               <MessageCircle width={24} height={24} />
               <CommentsCount>{comments}</CommentsCount>
             </CommentsWrapper>
-            {{ likes } && (
+            {likes !== null && (
               <LikesWrapper>
                 <ThumbsUp width={24} height={24} />
                 <LikesCount>{likes}</LikesCount>
@@ -63,7 +63,7 @@ export default PostCard;
 
 const PostCardWrapper = styled.View`
   width: 100%;
-  margin-bottom: ${(likes) => (likes ? `33px` : `0px`)};
+  margin-bottom: ${(likes) => (likes !== null ? `33px` : `0px`)};
 `;
 
 const PhotoWrapper = styled.View`

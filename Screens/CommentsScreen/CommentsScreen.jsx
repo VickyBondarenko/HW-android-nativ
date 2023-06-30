@@ -20,6 +20,7 @@ import {
   addAllPosts,
 } from "../../redux/postSlice/postSlice";
 import getCurrentDateTime from "../../helpers/getCurrentDate";
+import Comment from "../../Components/Comment";
 
 function CommentsScreen() {
   dispatch = useDispatch();
@@ -114,16 +115,25 @@ function CommentsScreen() {
         <CommentsWrapper>
           {comentsList.length > 0 &&
             comentsList.map((coment) => (
-              <CommentCard key={coment.date.time}>
-                <Avatar source={{ uri: coment.author.photoURL }}></Avatar>
-                <Message>
-                  <MessageText>{coment.text}</MessageText>
-                  <MessageDate>
-                    <DateDay> {coment.date.day}</DateDay>
-                    <DateTime> {coment.date.time}</DateTime>
-                  </MessageDate>
-                </Message>
-              </CommentCard>
+              <Comment
+                key={coment.date.time}
+                avatarSource={coment.author.photoURL}
+                text={coment.text}
+                day={coment.date.day}
+                time={coment.date.time}
+                autorId={coment.author.uid}
+              />
+
+              // <CommentCard key={coment.date.time}>
+              //   <Avatar source={{ uri: coment.author.photoURL }}></Avatar>
+              //   <Message>
+              //     <MessageText>{coment.text}</MessageText>
+              //     <MessageDate>
+              //       <DateDay> {coment.date.day}</DateDay>
+              //       <DateTime> {coment.date.time}</DateTime>
+              //     </MessageDate>
+              //   </Message>
+              // </CommentCard>
             ))}
         </CommentsWrapper>
       </ContetWrapper>
@@ -162,60 +172,12 @@ const ContetWrapper = styled.View`
 const PostPhoto = styled.Image`
   height: 240px;
 `;
-const CommentsWrapper = styled.View`
+const CommentsWrapper = styled.ScrollView`
   width: 100%;
-
-  align-items: center;
+  height: 322px;
+  /* align-items: center; */
   gap: 24px;
-`;
-
-const CommentCard = styled.View`
-  width: 100%;
-  flex-direction: row;
-  gap: 16px;
-`;
-const Avatar = styled.Image`
-  width: 28px;
-  height: 28px;
-  border-radius: 28px;
-`;
-
-const Message = styled.View`
-  justify-content: center;
-  align-items: flex-start;
-  width: 310px;
-  padding: 16px;
-  border-radius: 6px 0px 6px 6px;
-  background: rgba(0, 0, 0, 0.03);
-  gap: 8px;
-`;
-
-const MessageText = styled.Text`
-  color: #212121;
-  font-size: 13px;
-  font-family: Roboto;
-  line-height: 18px;
-`;
-
-const MessageDate = styled.View`
-  flex-direction: row;
-  gap: 4px;
-`;
-
-const DateDay = styled.Text`
-  color: #bdbdbd;
-  padding-right: 4px;
-  text-align: right;
-  font-size: 10px;
-  font-family: Roboto;
-  border-right-width: 1px;
-  border-right-color: #bdbdbd;
-`;
-const DateTime = styled.Text`
-  color: #bdbdbd;
-  text-align: right;
-  font-size: 10px;
-  font-family: Roboto;
+  margin-bottom: 5px;
 `;
 
 const InputWrapper = styled.View`
@@ -232,11 +194,6 @@ const AddCommentInput = styled.TextInput`
   font-family: Roboto;
   font-weight: 500;
   background: rgba(0, 0, 0, 0.03);
-  /* ::placeholder {
-    font-size: 16px;
-    font-family: Roboto;
-    font-weight: 500;
-  } */
 `;
 
 const SubmitCommentButton = styled.TouchableOpacity`

@@ -49,6 +49,9 @@ function ProfileScreen() {
     (post) => post.data.author.uid === uid
   );
   console.log("userPosts", userPosts);
+  const sortedUserPosts = [...userPosts].sort(
+    (a, b) => b.data.createAt - a.data.createAt
+  );
 
   const navigation = useNavigation();
 
@@ -73,8 +76,8 @@ function ProfileScreen() {
           </LogoutButtom>
           <UserHeader name={displayName} fotoURL={{ uri: photoURL }} />
           <PostsWrapper>
-            {userPosts.length > 0 &&
-              userPosts.map((post) => (
+            {sortedUserPosts.length > 0 &&
+              sortedUserPosts.map((post) => (
                 <PostCard
                   key={post.id}
                   imageSource={post.data.postContent.imageURI}
