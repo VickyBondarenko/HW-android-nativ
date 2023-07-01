@@ -12,7 +12,7 @@ import * as MediaLibrary from "expo-media-library";
 import CameraSvg from "../assets/svg/camera.svg";
 import styled from "styled-components/native";
 
-export default function Photocamera() {
+export default function Photocamera({ setImageURI, imageURI }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
@@ -24,7 +24,21 @@ export default function Photocamera() {
       const cameraStatus = await Camera.requestCameraPermissionsAsync();
       setHasPermission(cameraStatus.status === `granted`);
     })();
+    setImage(null);
   }, []);
+
+  useEffect(() => {
+    setImageURI(image);
+    if (image) {
+      savePicture();
+    }
+  }, [image]);
+
+  useEffect(() => {
+    if (!imageURI) {
+      setImage(null);
+    }
+  }, [imageURI]);
 
   const takePicture = async () => {
     if (cameraRef) {
@@ -32,22 +46,21 @@ export default function Photocamera() {
         const data = await cameraRef.current.takePictureAsync();
         setImage(data.uri);
       } catch (error) {
-        console.log(error);
+        console.log("1", error);
       }
     }
   };
 
-  // const savePicture = async () => {
-  //     if (image) {
-  //         try {
-  //             await MediaLibrary.createAssetAsync(image);
-  //             alert("Picture save sucsesfull!");
-  //             setImage(null)
-  //         } catch (error) {
-  //             console.log(error);
-  //         }
-  //     }
-  // };
+  const savePicture = async () => {
+    if (image) {
+      try {
+        const pict = await MediaLibrary.createAssetAsync(image);
+        console.log("Picture save!");
+      } catch (error) {
+        console.log("2", error);
+      }
+    }
+  };
 
   if (hasPermission === false) {
     return (
@@ -61,13 +74,13 @@ export default function Photocamera() {
     <CameraContainer style={styles.container}>
       {!image ? (
         <>
-          <Camera style={styles.camera} type={type} ref={cameraRef}>
+          <AddCamera type={type} ref={cameraRef}>
             <View>
               <SvgWrapper onPress={takePicture}>
                 <CameraSvg width={24} height={24} />
               </SvgWrapper>
             </View>
-          </Camera>
+          </AddCamera>
           <PhotoChangeButton>
             <PhotoChangeText>Завантажте фото</PhotoChangeText>
           </PhotoChangeButton>
@@ -76,7 +89,11 @@ export default function Photocamera() {
         <>
           <Image source={{ uri: image }} style={styles.camera} />
           <PhotoChangeButton>
-            <PhotoChangeText onPress={() => setImage(null)}>
+            <PhotoChangeText
+              onPress={() => {
+                setImage(null);
+              }}
+            >
               Редагувати фото
             </PhotoChangeText>
           </PhotoChangeButton>
@@ -87,12 +104,6 @@ export default function Photocamera() {
 }
 
 const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     justifyContent: "center",
-  //     alignItems: "center",
-  //     width: "100%",
-  //   },
   camera: {
     flex: 1,
     justifyContent: "center",
@@ -102,39 +113,16 @@ const styles = StyleSheet.create({
     height: 240,
     // aspectRatio: 16 / 9,
   },
-  photoView: {
-    flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end",
-  },
-
-  flipContainer: {
-    flex: 0.1,
-    alignSelf: "flex-end",
-  },
-
-  button: { alignSelf: "center" },
-
-  takePhotoOut: {
-    borderWidth: 2,
-    borderColor: "white",
-    height: 50,
-    width: 50,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-  },
-
-  takePhotoInner: {
-    borderWidth: 2,
-    borderColor: "white",
-    height: 40,
-    width: 40,
-    backgroundColor: "white",
-    borderRadius: 50,
-  },
 });
+
+const AddCamera = styled(Camera)`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 8px;
+  height: 240px;
+`;
 
 const SvgWrapper = styled.TouchableOpacity`
   justify-content: center;
@@ -150,6 +138,7 @@ const PhotoChangeButton = styled.TouchableOpacity`
   align-items: flex-start;
   padding-top: 8px;
 `;
+
 const PhotoChangeText = styled.Text`
   text-align: left;
   color: #bdbdbd;
@@ -157,15 +146,7 @@ const PhotoChangeText = styled.Text`
   font-family: Roboto;
   margin-bottom: 32px;
 `;
-const AddPicture = styled.View`
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 240px;
-  border-radius: 8px;
-  border: 1px solid #e8e8e8;
-  background: #f6f6f6;
-`;
+
 const CameraContainer = styled.View`
   justify-content: center;
   align-items: center;

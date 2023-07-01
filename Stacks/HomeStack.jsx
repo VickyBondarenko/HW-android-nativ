@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,10 +7,28 @@ import styled from "styled-components/native";
 import CommentsScreen from "../Screens/CommentsScreen/CommentsScreen";
 import MapScreen from "../Screens/MapScreen/MapScreen";
 import PostStack from "./PostStack";
+import { auth } from "../config";
+import { useDispatch } from "react-redux";
+import { addCurrentUser } from "../redux/authSlice/authSlice";
+import { collection, getDocs } from "firebase/firestore";
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const { displayName, email, photoURL, uid } = auth.currentUser;
+    const userData = {
+      displayName,
+      email,
+      photoURL,
+      uid,
+    };
+
+    dispatch(addCurrentUser(userData));
+  }, []);
+
   return (
     <Stack.Navigator
       initialRouteName="PostsList"

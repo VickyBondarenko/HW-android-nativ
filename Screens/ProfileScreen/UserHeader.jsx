@@ -7,7 +7,7 @@ const UserHeader = ({ fotoURL, name }) => {
   return (
     <UserHeaderWrapper>
       <Image
-        source={UserImage}
+        source={fotoURL}
         style={{
           width: 120,
           height: 120,

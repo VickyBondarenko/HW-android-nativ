@@ -9,12 +9,28 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
+import * as ImagePicker from "expo-image-picker";
 import styled from "styled-components/native";
+import AddSvg from "../../assets/svg/add.svg";
+
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth } from "../../config";
+
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+  uploadString,
+} from "firebase/auth";
+
+import { useDispatch } from "react-redux";
+import { addCurrentUser } from "../../redux/authSlice/authSlice";
 
 const RegistarationForm = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(true);
-
+  const [userImage, setUserImage] = useState(null);
   const [displayText, setDisplaytext] = useState("Показати");
 
   useEffect(() => {
@@ -25,19 +41,107 @@ const RegistarationForm = () => {
     setShowPassword(!showPassword);
   };
 
-  const myHandleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    resetForm();
-    navigation.navigate("Home");
+  const handleChooseAvatar = async () => {
+    const galleryStatus = await ImagePicker.getMediaLibraryPermissionsAsync();
+
+    if (galleryStatus.status === "granted") {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaType: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.5,
+      });
+
+      if (!result.canceled) {
+        console.log("image1", userImage);
+        setUserImage(result.assets[0].uri);
+      }
+    } else {
+      return console.log(`no access`);
+    }
+    console.log("image2", userImage);
   };
+
+  const handleSignUp = async (values, { resetForm }) => {
+    const { login, email, password } = values;
+    try {
+      const userData = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userData.user;
+      // if (userImage) {
+      //   console.log("image", userImage);
+      //   const storage = getStorage();
+      //   const storageRef = ref(storage, `avatars/${user.uid}.png`);
+      //   await uploadBytes(storageRef, userImage);
+      //   // uploadString(storageRef, userImage, "base64");
+      //   const avatarURL = await getDownloadURL(storageRef);
+      //   console.log(avatarURL, "avatarURL test");
+      //   await updateProfile(user, {
+      //     displayName: login,
+      //     photoURL: userImage,
+      //   });
+      // } else {
+      //   await updateProfile(user, {
+      //     displayName: login,
+      //   });
+      // }
+      if (userImage) {
+        const storage = getStorage();
+        const storageRef = ref(storage, `avatars/${user.uid}`);
+
+        const response = await fetch(userImage);
+        const blob = await response.blob();
+
+        await uploadBytes(storageRef, blob);
+        const avatarURL = await getDownloadURL(storageRef);
+        console.log(avatarURL, "avatarURL test");
+        await updateProfile(user, {
+          displayName: login,
+          photoURL: avatarURL,
+        });
+      } else {
+        await updateProfile(user, {
+          displayName: login,
+        });
+      }
+      console.log("Hello,", user.displayName);
+      console.log("image3", userImage);
+
+      setUserImage(null);
+
+      // const { displayName, email, photoURL, uid } = auth.currentUser;
+      // const userInfo = {
+      //   displayName,
+      //   email,
+      //   photoURL,
+      //   uid,
+      // };
+      // console.log("userInfo", userInfo);
+      // dispatch(addCurrentUser(userInfo));
+
+      navigation.navigate("Home");
+      resetForm();
+    } catch (error) {
+      console.error("Sorry, error occurred. Message:", error);
+      console.error("Error details:", error.serverResponse);
+      alert(error.message);
+    }
+  };
+
   const initialValues = { avatar: "", login: "", email: "", password: "" };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={myHandleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSignUp}>
       {({ handleChange, handleSubmit, values, errors }) => (
         <FormWrapper>
-          {/* <Button title="Select Avatar" onPress={() => {}} />
-                {errors.avatar && <Text>{errors.avatar}</Text>} */}
+          <AvatarWrapper>
+            <Avatar source={{ uri: userImage }} />
+            <AvatarButton onPress={handleChooseAvatar}>
+              <AddSvg width={25} height={25} />
+            </AvatarButton>
+          </AvatarWrapper>
+          <PageTitle>Реєстрація</PageTitle>
           <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
@@ -122,7 +226,44 @@ const ShowPasswordText = styled.Text`
   color: #1b4371;
 `;
 const ShowPasswordButton = styled.TouchableOpacity`
-  position: absolute;
+  /* position: absolute;
   right: 16px;
-  top: 16px;
+  top: 16px; */
+`;
+
+const AvatarWrapper = styled.View`
+  /* flex: 1; */
+  position: relative;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: -170px;
+`;
+
+const Avatar = styled.Image`
+  width: 120px;
+  height: 120px;
+  background: #f6f6f6;
+  border-radius: 16px;
+`;
+const AvatarButton = styled.TouchableOpacity`
+  position: absolute;
+  transform: translateX(60px) translateY(33px);
+
+  /* justify-content: center;
+  align-items: center; */
+`;
+
+const PageTitle = styled.Text`
+  margin-top: 32px;
+  padding-bottom: 32px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 35px;
+  text-align: center;
+  /* letter-spacing: 0.01; */
+
+  color: #212121;
 `;
