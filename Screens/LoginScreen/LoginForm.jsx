@@ -8,13 +8,15 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addCurrentUser } from "../../redux/authSlice/authSlice";
 import { Formik } from "formik";
 import { auth } from "../../config";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-// import * as yup from "yup";
 import styled from "styled-components/native";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(true);
   const [displayText, setDisplaytext] = useState("Показати");
 
@@ -37,18 +39,27 @@ const LoginForm = () => {
     return unsubscribe;
   }, []);
 
-  const handleSignIn = (values, { resetForm }) => {
+  const handleSignIn = async (values, { resetForm }) => {
     const { email, password } = values;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userData) => {
-        const user = userData.user;
-        const { displayName, email, accessToken, uid, photoURL } = user;
-      })
+    try {
+      const userData = await signInWithEmailAndPassword(auth, email, password);
+      const user = userData.user;
 
-      .catch((e) => alert(e.message));
+      const userProfile = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid,
+      };
 
-    resetForm();
+      dispatch(addCurrentUser(userProfile));
+      resetForm();
+    } catch (error) {
+      console.error("Sorry, error occurred. Message:", error);
+      console.error("Error details:", error.serverResponse);
+      alert(error.message);
+    }
   };
 
   const initialValues = { email: "", password: "" };

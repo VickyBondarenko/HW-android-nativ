@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -24,12 +26,17 @@
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
-      ]
+      ],
+      "package": "com.vicky1430.AwesomeProject"
     },
-
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "android.config.googleMaps.apiKey": "AIzaSyDFfgvxkqK_UdGZAxyGAvM5ILSRsKRhmuk"
+    "android.config.googleMaps.apiKey": "AIzaSyDFfgvxkqK_UdGZAxyGAvM5ILSRsKRhmuk",
+    "extra": {
+      "eas": {
+        "projectId": "2cf84577-fa66-491b-9115-fc8038faffb9"
+      }
+    }
   }
 }

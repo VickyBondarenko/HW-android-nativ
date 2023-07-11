@@ -35,8 +35,6 @@ const PostsScreen = () => {
 
   const postState = useSelector(selectPostState);
   const authState = useSelector(selectAuthState);
-  console.log("authState in post screen", authState);
-
   const route = useRoute();
   const { refresh = false } = route.params || {};
 
@@ -44,12 +42,11 @@ const PostsScreen = () => {
     const getDataFromFirestore = async () => {
       try {
         const snapshot = await getDocs(collection(db, "posts"));
-        console.log("snapshot.docs", snapshot.docs);
+
         const result = snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),
         }));
-        console.log("result", result);
         dispatch(addAllPosts(result));
         return result;
       } catch (error) {
@@ -57,8 +54,6 @@ const PostsScreen = () => {
       }
     };
     getDataFromFirestore();
-
-    console.log("postState", postState);
   }, [route, refresh]);
 
   const posts = useSelector(selectAllPosts);
@@ -66,14 +61,10 @@ const PostsScreen = () => {
     (a, b) => b.data.createAt - a.data.createAt
   );
 
-  console.log("sortedPosts", sortedPosts);
   const { photoURL, email, displayName } = authState;
-
   const { comments, likes, postContent } = postState;
   const { imageURI, location, position, title } = postContent;
   const { count } = comments;
-
-  console.log("postState", postState);
 
   return (
     <ScreenWrapper>

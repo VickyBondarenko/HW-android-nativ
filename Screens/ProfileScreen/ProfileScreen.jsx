@@ -28,12 +28,10 @@ function ProfileScreen() {
     const getDataFromFirestore = async () => {
       try {
         const snapshot = await getDocs(collection(db, "posts"));
-        console.log("snapshot.docs", snapshot.docs);
         const result = snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),
         }));
-        console.log("result", result);
         dispatch(addAllPosts(result));
         return result;
       } catch (error) {
@@ -44,11 +42,9 @@ function ProfileScreen() {
   }, []);
 
   const { photoURL, email, displayName, uid } = authState;
-  console.log("allPosts", allPosts);
   const userPosts = [...allPosts].filter(
     (post) => post.data.author.uid === uid
   );
-  console.log("userPosts", userPosts);
   const sortedUserPosts = [...userPosts].sort(
     (a, b) => b.data.createAt - a.data.createAt
   );

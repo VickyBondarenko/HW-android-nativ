@@ -129,9 +129,6 @@ function CreatePostScreen({ route, navigation }) {
   };
 
   const handleSubmit = async () => {
-    // await AsyncStorage.clear();
-    // console.log("Storage cleared");
-
     // add foto to the storage
     let currentDate = new Date();
     let pictureName = `pictures/${title}${currentDate.getTime()}.jpg`;
@@ -142,7 +139,7 @@ function CreatePostScreen({ route, navigation }) {
     //takeURL from the storage
     await uploadBytes(storageRef, blob);
     const pictureURL = await getDownloadURL(storageRef);
-    console.log(pictureURL, "pictureURL test");
+
     //add post to firestore
     // const writeDataToFirestore = async () => {
     //   try {

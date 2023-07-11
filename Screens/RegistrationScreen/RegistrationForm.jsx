@@ -16,12 +16,7 @@ import AddSvg from "../../assets/svg/add.svg";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth } from "../../config";
 
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-  uploadString,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 import { useDispatch } from "react-redux";
 import { addCurrentUser } from "../../redux/authSlice/authSlice";
@@ -57,7 +52,6 @@ const RegistarationForm = () => {
     } else {
       return console.log(`no access`);
     }
-    console.log("image2", userImage);
   };
 
   const handleSignUp = async (values, { resetForm }) => {
@@ -69,33 +63,15 @@ const RegistarationForm = () => {
         password
       );
       const user = userData.user;
-      // if (userImage) {
-      //   console.log("image", userImage);
-      //   const storage = getStorage();
-      //   const storageRef = ref(storage, `avatars/${user.uid}.png`);
-      //   await uploadBytes(storageRef, userImage);
-      //   // uploadString(storageRef, userImage, "base64");
-      //   const avatarURL = await getDownloadURL(storageRef);
-      //   console.log(avatarURL, "avatarURL test");
-      //   await updateProfile(user, {
-      //     displayName: login,
-      //     photoURL: userImage,
-      //   });
-      // } else {
-      //   await updateProfile(user, {
-      //     displayName: login,
-      //   });
-      // }
+
       if (userImage) {
         const storage = getStorage();
         const storageRef = ref(storage, `avatars/${user.uid}`);
-
         const response = await fetch(userImage);
         const blob = await response.blob();
-
         await uploadBytes(storageRef, blob);
         const avatarURL = await getDownloadURL(storageRef);
-        console.log(avatarURL, "avatarURL test");
+
         await updateProfile(user, {
           displayName: login,
           photoURL: avatarURL,
@@ -105,20 +81,17 @@ const RegistarationForm = () => {
           displayName: login,
         });
       }
-      console.log("Hello,", user.displayName);
-      console.log("image3", userImage);
+
+      const userProfile = {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        uid: user.uid,
+      };
+
+      dispatch(addCurrentUser(userProfile));
 
       setUserImage(null);
-
-      // const { displayName, email, photoURL, uid } = auth.currentUser;
-      // const userInfo = {
-      //   displayName,
-      //   email,
-      //   photoURL,
-      //   uid,
-      // };
-      // console.log("userInfo", userInfo);
-      // dispatch(addCurrentUser(userInfo));
 
       navigation.navigate("Home");
       resetForm();

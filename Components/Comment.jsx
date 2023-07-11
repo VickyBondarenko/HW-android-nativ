@@ -11,7 +11,7 @@ const Comment = ({ avatarSource, text, day, time, autorId }) => {
   const { uid } = auth.currentUser;
   const ownComment = autorId === uid;
 
-  console.log("ownComment", ownComment);
+
   return (
     <CommentCard ownComment={ownComment}>
       <Avatar source={{ uri: avatarSource }}></Avatar>

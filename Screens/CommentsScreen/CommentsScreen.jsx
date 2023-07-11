@@ -34,12 +34,10 @@ function CommentsScreen() {
     const getDataFromFirestore = async () => {
       try {
         const snapshot = await getDocs(collection(db, "posts"));
-        console.log("snapshot.docs", snapshot.docs);
         const result = snapshot.docs.map((doc) => ({
           id: doc.id,
           data: doc.data(),
         }));
-        console.log("result", result);
         dispatch(addAllPosts(result));
         return result;
       } catch (error) {
@@ -54,9 +52,6 @@ function CommentsScreen() {
   } = useRoute();
   const [{ data }] = posts.filter((post) => post.id === id);
   const comentsList = data.comments.list;
-  console.log("comentsList", comentsList);
-
-  // console.log("allComents", allComents);
 
   const updateDataInFirestore = async (count, allComments) => {
     try {
@@ -75,7 +70,6 @@ function CommentsScreen() {
   };
 
   const handleSubmit = () => {
-    console.log("hello");
     const { formattedDate, formattedTime } = getCurrentDateTime();
     const newComment = {
       author: {
@@ -92,14 +86,9 @@ function CommentsScreen() {
     const allComments = [...comentsList, newComment];
     const count = allComments.length;
 
-    console.log("allComments", allComments);
-    console.log("count", count);
-    console.log("newComment", newComment);
-
     updateDataInFirestore(count, allComments);
     setCommentText("");
     setChengeComents(!chengeComents);
-    console.log("posts in Comments", posts);
   };
 
   return (

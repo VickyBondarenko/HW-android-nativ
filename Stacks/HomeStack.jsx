@@ -15,19 +15,19 @@ import { collection, getDocs } from "firebase/firestore";
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    const { displayName, email, photoURL, uid } = auth.currentUser;
-    const userData = {
-      displayName,
-      email,
-      photoURL,
-      uid,
-    };
+  // useEffect(() => {
+  //   const { displayName, email, photoURL, uid } = auth.currentUser;
+  //   const userData = {
+  //     displayName,
+  //     email,
+  //     photoURL,
+  //     uid,
+  //   };
 
-    dispatch(addCurrentUser(userData));
-  }, []);
+  //   dispatch(addCurrentUser(userData));
+  // }, []);
 
   return (
     <Stack.Navigator
