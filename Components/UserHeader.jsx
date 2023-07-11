@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
+import UserImage from "../assets/images/userFoto.png";
 import styled from "styled-components/native";
-import UserImage from "../../assets/images/userFoto.png";
 
 const UserHeader = ({ fotoURL, name }) => {
   return (

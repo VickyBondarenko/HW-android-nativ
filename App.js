@@ -8,10 +8,9 @@ import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import styled from "styled-components/native";
-import LoginScreen from "./Screens/LoginScreen/LoginScreen";
-import RegistrationScreen from "./Screens/RegistrationScreen/RegistrationScreen";
+import LoginScreen from "./Screens/LoginScreen";
+import RegistrationScreen from "./Screens/RegistrationScreen";
 import HomeStack from "./Stacks/HomeStack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MainStack = createStackNavigator();
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Text,
   TextInput,
@@ -8,27 +8,20 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  addPost,
-  addPosition,
-  addAllPosts,
-} from "../../redux/postSlice/postSlice";
+import { useRoute } from "@react-navigation/native";
+import { addAllPosts } from "../redux/postSlice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectPostState,
   selectAllPosts,
-} from "../../redux/postSlice/PostSelector";
-import { selectAuthState } from "../../redux/authSlice/authSelector";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { auth, db } from "../../config";
-
-import styled from "styled-components/native";
-import UserInfo from "./UserInfo";
-import PostCard from "../../Components/PostCard";
-import ForestFoto from "../../assets/images/forestFoto.png";
-import UserImage from "../../assets/images/userFoto.png";
+} from "../redux/postSlice/PostSelector";
+import { selectAuthState } from "../redux/authSlice/authSelector";
 import { collection, getDocs } from "firebase/firestore";
+import { db } from "../config";
+
+import UserInfo from "../Components/UserInfo";
+import PostCard from "../Components/PostCard";
+import styled from "styled-components/native";
 
 const PostsScreen = () => {
   const dispatch = useDispatch();
@@ -87,7 +80,6 @@ const PostsScreen = () => {
             />
           </PostWrapper>
         ))}
-      {/* <Text>hello</Text> */}
     </ScreenWrapper>
   );
 };

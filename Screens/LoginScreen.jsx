@@ -9,8 +9,8 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import LogInForm from "../Components/LoginForm";
 import styled from "styled-components/native";
-import LogInForm from "./LoginForm";
 
 const LogInScreen = () => {
   const navigation = useNavigation();
@@ -18,7 +18,7 @@ const LogInScreen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <LogInWrapper>
         <ImageBG
-          source={require("../../assets/images/photoBG.png")}
+          source={require("../assets/images/photoBG.png")}
           resizeMode="cover"
         >
           <ContentWrapper>
@@ -42,16 +42,10 @@ export default LogInScreen;
 
 const LogInWrapper = styled.View`
   flex: 1;
-  /* width: 100%; */
-  /* justify-content: flex-end; */
-  /* align-items: center; */
 `;
 
 const ImageBG = styled.ImageBackground`
   flex: 1;
-  /* width: 100%;
-  height: 100%; */
-  /* justify-content: center; */
   justify-content: flex-end;
   resize: cover;
 `;
@@ -64,7 +58,6 @@ const ContentWrapper = styled.View`
 `;
 
 const PageTitle = styled.Text`
-  /* margin-top: 92px; */
   padding-bottom: 32px;
   font-family: "Roboto";
   font-style: normal;
@@ -72,8 +65,6 @@ const PageTitle = styled.Text`
   font-size: 30px;
   line-height: 35px;
   text-align: center;
-  /* letter-spacing: 0.01; */
-
   color: #212121;
 `;
 
@@ -109,6 +100,5 @@ const LoginRediractionText = styled.Text`
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-
   color: #1b4371;
 `;

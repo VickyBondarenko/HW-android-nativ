@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import styled from "styled-components/native";
-import * as Location from "expo-location";
-import BasketSvg from "../../assets/svg/basket.svg";
-import MapSvg from "../../assets/svg/map-pin.svg";
-import PhotoCamera from "../../Components/Camera";
-import { addPost, addPosition } from "../../redux/postSlice/postSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { PROVIDER_GOOGLE } from "react-native-maps";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { selectAuthState } from "../../redux/authSlice/authSelector";
-
+import * as Location from "expo-location";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { auth, db } from "../../config";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-  uploadString,
-} from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
+import { db } from "../config";
+import { PROVIDER_GOOGLE } from "react-native-maps";
+
+import { addPost, addPosition } from "../redux/postSlice/postSlice";
+import { selectAuthState } from "../redux/authSlice/authSelector";
+import PhotoCamera from "../Components/Camera";
+import BasketSvg from "../assets/svg/basket.svg";
+import MapSvg from "../assets/svg/map-pin.svg";
+import styled from "styled-components/native";
 
 function CreatePostScreen({ route, navigation }) {
   const [disableSbm, setDisableSbm] = useState(true);

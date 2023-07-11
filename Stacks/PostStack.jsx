@@ -1,17 +1,15 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-// import handleSignOut from "../helpers/LogOut";
-import styled from "styled-components/native";
-import PostsScreen from "../Screens/PostScreen/PostsScreen";
-import ProfileScreen from "../Screens/ProfileScreen/ProfileScreen";
-import CreatePostScreen from "../Screens/CreatePostsScreen/CreatePostsScreen";
-import LogoutSvg from "../assets/svg/log-out.svg";
-import { useNavigation } from "@react-navigation/native";
 import { auth } from "../config";
+
+import PostsScreen from "../Screens/PostsScreen";
+import ProfileScreen from "../Screens//ProfileScreen";
+import CreatePostScreen from "../Screens/CreatePostsScreen";
+import LogoutSvg from "../assets/svg/log-out.svg";
+import styled from "styled-components/native";
 
 const Tabs = createBottomTabNavigator();
 

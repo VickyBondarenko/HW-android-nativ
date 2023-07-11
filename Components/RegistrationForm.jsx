@@ -10,16 +10,14 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
 import * as ImagePicker from "expo-image-picker";
-import styled from "styled-components/native";
-import AddSvg from "../../assets/svg/add.svg";
-
+import { useDispatch } from "react-redux";
+import { addCurrentUser } from "../redux/authSlice/authSlice";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { auth } from "../../config";
-
+import { auth } from "../config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-import { useDispatch } from "react-redux";
-import { addCurrentUser } from "../../redux/authSlice/authSlice";
+import AddSvg from "../assets/svg/add.svg";
+import styled from "styled-components/native";
 
 const RegistarationForm = () => {
   const dispatch = useDispatch();
@@ -192,10 +190,7 @@ const ShowPasswordText = styled.Text`
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  /* identical to box height */
-
   text-align: right;
-
   color: #1b4371;
 `;
 const ShowPasswordButton = styled.TouchableOpacity`
@@ -205,7 +200,6 @@ const ShowPasswordButton = styled.TouchableOpacity`
 `;
 
 const AvatarWrapper = styled.View`
-  /* flex: 1; */
   position: relative;
   flex-direction: row;
   justify-content: center;
@@ -222,9 +216,6 @@ const Avatar = styled.Image`
 const AvatarButton = styled.TouchableOpacity`
   position: absolute;
   transform: translateX(60px) translateY(33px);
-
-  /* justify-content: center;
-  align-items: center; */
 `;
 
 const PageTitle = styled.Text`
@@ -236,7 +227,5 @@ const PageTitle = styled.Text`
   font-size: 30px;
   line-height: 35px;
   text-align: center;
-  /* letter-spacing: 0.01; */
-
   color: #212121;
 `;

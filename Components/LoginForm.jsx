@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { addCurrentUser } from "../../redux/authSlice/authSlice";
+import { addCurrentUser } from "../redux/authSlice/authSlice";
 import { Formik } from "formik";
-import { auth } from "../../config";
+import { auth } from "../config";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import styled from "styled-components/native";
 
@@ -76,12 +76,8 @@ const LoginForm = () => {
               onChangeText={handleChange("email")}
               value={values.email}
             />
-            {/* </KeyboardAvoidingView> */}
 
             <PasswordWrapper>
-              {/* <KeyboardAvoidingView
-              behavior={Platform.OS == "ios" ? "padding" : "height"}
-            > */}
               <Input
                 placeholder="Пароль"
                 onChangeText={handleChange("password")}

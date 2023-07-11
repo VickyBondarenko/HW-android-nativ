@@ -1,16 +1,11 @@
 import React from "react";
 import { Text, View, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { selectPostState } from "../redux/postSlice/PostSelector";
 import { auth } from "../config";
 import styled from "styled-components/native";
 
 const Comment = ({ avatarSource, text, day, time, autorId }) => {
   const { uid } = auth.currentUser;
   const ownComment = autorId === uid;
-
 
   return (
     <CommentCard ownComment={ownComment}>

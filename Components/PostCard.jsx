@@ -2,11 +2,9 @@ import React from "react";
 import { Text, View, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
-import { selectPostState } from "../redux/postSlice/PostSelector";
-import styled from "styled-components/native";
 import ThumbsUp from "../assets/svg/thumbs-up.svg";
 import MessageCircle from "../assets/svg/message-circle.svg";
+import styled from "styled-components/native";
 
 const PostCard = ({
   imageSource,

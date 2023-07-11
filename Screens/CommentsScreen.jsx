@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  selectPostState,
-  selectAllPosts,
-} from "../../redux/postSlice/PostSelector";
+import { useRoute } from "@react-navigation/native";
+import { selectAllPosts } from "../redux/postSlice/PostSelector";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuthState } from "../../redux/authSlice/authSelector";
-import styled from "styled-components/native";
-import UserImage from "../../assets/images/userFoto.png";
-import SendComment from "../../assets/svg/send-comment.svg";
+import { selectAuthState } from "../redux/authSlice/authSelector";
+import { addAllPosts } from "../redux/postSlice/postSlice";
+import { db } from "../config";
 import { doc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../../config";
 import { collection, getDocs } from "firebase/firestore";
-import {
-  addPost,
-  addPosition,
-  addAllPosts,
-} from "../../redux/postSlice/postSlice";
-import getCurrentDateTime from "../../helpers/getCurrentDate";
-import Comment from "../../Components/Comment";
+import getCurrentDateTime from "../helpers/getCurrentDate";
+import Comment from "../Components/Comment";
+import SendComment from "../assets/svg/send-comment.svg";
+import styled from "styled-components/native";
 
 function CommentsScreen() {
   dispatch = useDispatch();
@@ -112,17 +104,6 @@ function CommentsScreen() {
                 time={coment.date.time}
                 autorId={coment.author.uid}
               />
-
-              // <CommentCard key={coment.date.time}>
-              //   <Avatar source={{ uri: coment.author.photoURL }}></Avatar>
-              //   <Message>
-              //     <MessageText>{coment.text}</MessageText>
-              //     <MessageDate>
-              //       <DateDay> {coment.date.day}</DateDay>
-              //       <DateTime> {coment.date.time}</DateTime>
-              //     </MessageDate>
-              //   </Message>
-              // </CommentCard>
             ))}
         </CommentsWrapper>
       </ContetWrapper>

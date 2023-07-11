@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import styled from "styled-components/native";
 import { Dimensions } from "react-native";
-import {
-  selectPostState,
-  selectAllPosts,
-} from "../../redux/postSlice/PostSelector";
-import UserHeader from "./UserHeader";
-import LogoutSvg from "../../assets/svg/log-out.svg";
-import PostCard from "../../Components/PostCard";
-import { selectAuthState } from "../../redux/authSlice/authSelector";
-import { addAllPosts } from "../../redux/postSlice/postSlice";
-import { auth, db } from "../../config";
+import { selectAllPosts } from "../redux/postSlice/PostSelector";
+import { selectAuthState } from "../redux/authSlice/authSelector";
+import { addAllPosts } from "../redux/postSlice/postSlice";
+import { auth, db } from "../config";
 import { collection, getDocs } from "firebase/firestore";
+
+import PostCard from "../Components/PostCard";
+import UserHeader from "../Components/UserHeader";
+import LogoutSvg from "../assets/svg/log-out.svg";
+import styled from "styled-components/native";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -41,7 +39,7 @@ function ProfileScreen() {
     getDataFromFirestore();
   }, []);
 
-  const { photoURL, email, displayName, uid } = authState;
+  const { photoURL, displayName, uid } = authState;
   const userPosts = [...allPosts].filter(
     (post) => post.data.author.uid === uid
   );
@@ -63,7 +61,7 @@ function ProfileScreen() {
   return (
     <ProfileScreenWrapper>
       <ImageBG
-        source={require("../../assets/images/photoBG.png")}
+        source={require("../assets/images/photoBG.png")}
         style={{ height: windowHeight }}
       >
         <ContentWrapper>
@@ -96,7 +94,6 @@ export default ProfileScreen;
 
 const ProfileScreenWrapper = styled.View`
   flex: 1;
-  /* height: 100%; */
 `;
 
 const ImageBG = styled.ImageBackground`
@@ -114,9 +111,6 @@ const ContentWrapper = styled.View`
 `;
 const PostsWrapper = styled.ScrollView`
   flex: 1;
-`;
-const UserHeaderWrapper = styled.View`
-  /* align-items: flex-end; */
 `;
 
 const LogoutButtom = styled.TouchableOpacity`

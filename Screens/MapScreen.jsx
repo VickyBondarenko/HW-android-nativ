@@ -8,11 +8,10 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import styled from "styled-components/native";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 
-// const { GOOGLE_MAPS_API_KEY } = process.env;
 provider = PROVIDER_GOOGLE;
 
 const MapScreen = () => {

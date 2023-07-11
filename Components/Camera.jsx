@@ -7,7 +7,7 @@ import {
   Button,
   Image,
 } from "react-native";
-import { Camera, CameraType } from "expo-camera";
+import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import CameraSvg from "../assets/svg/camera.svg";
 import styled from "styled-components/native";
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 8,
     height: 240,
-    // aspectRatio: 16 / 9,
   },
 });
 

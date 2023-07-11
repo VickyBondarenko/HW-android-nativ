@@ -9,29 +9,16 @@ import {
   Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AddSvg from "../../assets/svg/add.svg";
+import RegistarationForm from "../Components/RegistrationForm";
 import styled from "styled-components/native";
-import RegistarationForm from "./RegistrationForm";
 
 const RegistrationScreen = () => {
   const navigation = useNavigation();
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <RegistrationWrapper>
-        <ImageBG source={require("../../assets/images/photoBG.png")}>
+        <ImageBG source={require("../assets/images/photoBG.png")}>
           <ContentWrapper>
-            {/* <AvatarWrapper>
-              <Avatar></Avatar>
-              <AddSvg
-                width={25}
-                height={25}
-                style={{
-                  position: "absolute",
-                  transform: [{ translateX: 60 }, { translateY: 33 }],
-                }}
-              />
-            </AvatarWrapper>
-            <PageTitle>Реєстрація</PageTitle> */}
             <RegistarationForm />
             <LoginLink>
               Вже є акаунт?
@@ -57,7 +44,6 @@ const RegistrationWrapper = styled.View`
 const ImageBG = styled.ImageBackground`
   width: 100%;
   height: 100%;
-  /* justify-content: flex-end; */
   justify-content: flex-end;
   resize: cover;
 `;
@@ -67,36 +53,6 @@ const ContentWrapper = styled.View`
   padding: 120px 16px 66px;
   background-color: #ffffff;
   border-radius: 25px 25px 0px 0px;
-`;
-
-const AvatarWrapper = styled.View`
-  flex: 1;
-  position: relative;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: -120px;
-`;
-
-const Avatar = styled.View`
-  width: 120px;
-  height: 120px;
-  background: #f6f6f6;
-  border-radius: 16px;
-`;
-
-const PageTitle = styled.Text`
-  margin-top: 92px;
-  padding-bottom: 32px;
-  font-family: "Roboto";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 30px;
-  line-height: 35px;
-  text-align: center;
-  /* letter-spacing: 0.01; */
-
-  color: #212121;
 `;
 
 const LoginLink = styled.Text`
